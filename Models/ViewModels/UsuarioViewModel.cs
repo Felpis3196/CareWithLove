@@ -1,6 +1,6 @@
 ﻿namespace CareWithLoveApp.Models.OutputModels
 {
-    public class UsuariovViewModel
+    public class UsuarioViewModel
     {
         public Guid UsuarioId { get; set; }
         public string? UsuarioNome { get; set; }

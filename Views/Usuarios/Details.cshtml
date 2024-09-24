@@ -1,4 +1,4 @@
-﻿@model CareWithLoveApp.Models.Entities.Usuario
+﻿@model CareWithLoveApp.Models.OutputModels.UsuarioViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -29,28 +29,10 @@
             @Html.DisplayFor(model => model.UsuarioEmail)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UsuarioSenha)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UsuarioSenha)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UsuarioTelefone)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UsuarioTelefone)
-        </dd>
-        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.DataNascimento)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.DataNascimento)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UsuarioLogradouro)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UsuarioLogradouro)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.UsuarioTipo)

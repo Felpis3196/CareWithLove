@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CareWithLoveApp.Models.Entities.Usuario>
+﻿@model IEnumerable<CareWithLoveApp.Models.OutputModels.UsuarioViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -22,16 +22,7 @@
                 @Html.DisplayNameFor(model => model.UsuarioEmail)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UsuarioSenha)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UsuarioTelefone)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.DataNascimento)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UsuarioLogradouro)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.UsuarioTipo)
@@ -52,16 +43,7 @@
                 @Html.DisplayFor(modelItem => item.UsuarioEmail)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.UsuarioSenha)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UsuarioTelefone)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.DataNascimento)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UsuarioLogradouro)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.UsuarioTipo)

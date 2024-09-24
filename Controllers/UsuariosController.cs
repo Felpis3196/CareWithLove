@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using CareWithLoveApp.Data;
 using CareWithLoveApp.Models.Entities;
 using CareWithLoveApp.Services;
+using CareWithLoveApp.Models.InputModels;
+using CareWithLoveApp.Models.OutputModels;
 
 namespace AplicacaoCareWithLove.Controllers
 {
@@ -23,7 +25,17 @@ namespace AplicacaoCareWithLove.Controllers
         // GET: Usuarios
         public async Task<IActionResult> Index()
         {
-            return View(_usuarioService.ObterTodosUsuarios());
+            var usuarios = _usuarioService.ObterTodosUsuarios()
+                .Select(u => new UsuarioViewModel
+                {
+                    UsuarioId = u.UsuarioId,
+                    UsuarioNome = u.UsuarioNome,
+                    UsuarioEmail = u.UsuarioEmail,
+                    UsuarioSexo = u.UsuarioSexo,
+                    DataNascimento = u.DataNascimento,
+                    UsuarioTipo = u.UsuarioTipo
+                });
+            return View(usuarios);
         }
 
         // GET: Usuarios/Details/5
@@ -40,7 +52,17 @@ namespace AplicacaoCareWithLove.Controllers
                 return NotFound();
             }
 
-            return View(usuario);
+            var usuarioViewModel = new UsuarioViewModel
+            {
+                UsuarioId = usuario.UsuarioId,
+                UsuarioNome = usuario.UsuarioNome,
+                UsuarioEmail = usuario.UsuarioEmail,
+                UsuarioSexo = usuario.UsuarioSexo,
+                DataNascimento = usuario.DataNascimento,
+                UsuarioTipo = usuario.UsuarioTipo
+            };
+
+            return View(usuarioViewModel);
         }
 
         // GET: Usuarios/Create
@@ -52,15 +74,27 @@ namespace AplicacaoCareWithLove.Controllers
         // POST: Usuarios/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Usuario usuario)
+        public async Task<IActionResult> Create(UsuarioInputModel usuarioInputModel)
         {
             if (ModelState.IsValid)
             {
-                usuario.UsuarioId = Guid.NewGuid();
+                var usuario = new Usuario
+                {
+                    UsuarioId = Guid.NewGuid(),
+                    UsuarioNome = usuarioInputModel.UsuarioNome,
+                    UsuarioEmail = usuarioInputModel.UsuarioEmail,
+                    UsuarioTelefone = usuarioInputModel.UsuarioTelefone,
+                    UsuarioSexo = usuarioInputModel.UsuarioSexo,
+                    UsuarioSenha = usuarioInputModel.UsuarioSenha,
+                    DataNascimento = usuarioInputModel.DataNascimento,
+                    UsuarioLogradouro = usuarioInputModel.UsuarioLogradouro,
+                    UsuarioTipo = usuarioInputModel.UsuarioTipo
+                };
+
                 _usuarioService.AdicionarUsuario(usuario);
                 return RedirectToAction(nameof(Index));
             }
-            return View(usuario);
+            return View(usuarioInputModel);
         }
 
         // GET: Usuarios/Edit/5
@@ -77,33 +111,50 @@ namespace AplicacaoCareWithLove.Controllers
                 return NotFound();
             }
 
-            return View(usuario);
+            var usuarioInputModel = new UsuarioInputModel
+            {
+                UsuarioId = usuario.UsuarioId,
+                UsuarioNome = usuario.UsuarioNome,
+                UsuarioEmail = usuario.UsuarioEmail,
+                UsuarioTelefone = usuario.UsuarioTelefone,
+                UsuarioSexo = usuario.UsuarioSexo,
+                DataNascimento = usuario.DataNascimento,
+                UsuarioLogradouro = usuario.UsuarioLogradouro,
+                UsuarioTipo = usuario.UsuarioTipo
+            };
+
+            return View(usuarioInputModel);
         }
 
         // POST: Usuarios/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, Usuario usuario)
+        public async Task<IActionResult> Edit(Guid id, UsuarioInputModel usuarioInputModel)
         {
-            if (id != usuario.UsuarioId)
+            if (id != usuarioInputModel.UsuarioId)
             {
                 return NotFound();
             }
 
             if (ModelState.IsValid)
             {
-                try
+                var usuario = new Usuario
                 {
-                    _usuarioService.AtualizarUsuario(usuario);
-                }
-                catch (Exception)
-                {
-                    // Tratar exceções, por exemplo, quando o usuário não é encontrado no banco.
-                    return NotFound();
-                }
+                    UsuarioId = usuarioInputModel.UsuarioId,
+                    UsuarioNome = usuarioInputModel.UsuarioNome,
+                    UsuarioEmail = usuarioInputModel.UsuarioEmail,
+                    UsuarioTelefone = usuarioInputModel.UsuarioTelefone,
+                    UsuarioSexo = usuarioInputModel.UsuarioSexo,
+                    UsuarioSenha = usuarioInputModel.UsuarioSenha,
+                    DataNascimento = usuarioInputModel.DataNascimento,
+                    UsuarioLogradouro = usuarioInputModel.UsuarioLogradouro,
+                    UsuarioTipo = usuarioInputModel.UsuarioTipo
+                };
+
+                _usuarioService.AtualizarUsuario(usuario);
                 return RedirectToAction(nameof(Index));
             }
-            return View(usuario);
+            return View(usuarioInputModel);
         }
 
         // GET: Usuarios/Delete/5
@@ -120,8 +171,19 @@ namespace AplicacaoCareWithLove.Controllers
                 return NotFound();
             }
 
-            return View(usuario);
+            var usuarioViewModel = new UsuarioViewModel
+            {
+                UsuarioId = usuario.UsuarioId,
+                UsuarioNome = usuario.UsuarioNome,
+                UsuarioEmail = usuario.UsuarioEmail,
+                UsuarioSexo = usuario.UsuarioSexo,
+                DataNascimento = usuario.DataNascimento,
+                UsuarioTipo = usuario.UsuarioTipo
+            };
+
+            return View(usuarioViewModel);
         }
+
 
         // POST: Usuarios/Delete/5
         [HttpPost, ActionName("Delete")]
@@ -137,5 +199,7 @@ namespace AplicacaoCareWithLove.Controllers
             _usuarioService.ExcluirUsuario(id);
             return RedirectToAction(nameof(Index));
         }
+
     }
+
 }
