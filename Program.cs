@@ -16,9 +16,11 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
-// No arquivo Program.cs, adicione na configura??o dos servi?os
+// Instanciando as services e reps
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+builder.Services.AddScoped<IDependenteService, DependenteService>();
+builder.Services.AddScoped<IDependenteRepository, DependenteRepository>();
 
 builder.Services.AddDbContext<MainContext>(
     options => options.UseSqlServer(connectionString)
