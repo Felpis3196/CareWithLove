@@ -1,0 +1,65 @@
+﻿@model IEnumerable<CareWithLoveApp.Models.ViewModels.DependenteViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DependenteNome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DependenteIdade)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DependenteEndereco)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Insulina)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TelefoneEmergencia)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cuidados)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DependenteNome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DependenteIdade)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DependenteEndereco)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Insulina)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TelefoneEmergencia)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cuidados)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.DependenteId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.DependenteId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.DependenteId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
