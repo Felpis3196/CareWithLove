@@ -1,14 +1,18 @@
 ﻿using CareWithLoveApp.Models.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace CareWithLoveApp.Models.InputModels
 {
     public class AvaliacaoInputModel
     {
-        public Guid AvaliacaoId { get; set; }
+        [Required]
+        [Range(1, 5, ErrorMessage = "Nota deve ser entre 1 e 5.")]
         public int Nota { get; set; }
-        public string Review { get; set; }
 
-        // Chave estrangeira e relacionamento com Usuario
+        [Required]
+        [StringLength(500, ErrorMessage = "O review não pode ter mais de 500 caracteres.")]
+        public string Review { get; set; }
+        [Required]
         public Guid UsuarioId { get; set; }
         public Usuario Usuario { get; set; }
     }

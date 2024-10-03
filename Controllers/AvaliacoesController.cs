@@ -1,10 +1,12 @@
-﻿using CareWithLoveApp.Models.Entities;
-using CareWithLoveApp.Models.InputModels;
-using CareWithLoveApp.Models.OutputModels;
-using CareWithLoveApp.Models.ViewModels;
-using CareWithLoveApp.Services;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using CareWithLoveApp.Models.InputModels;
+using CareWithLoveApp.Models.ViewModels;
+using CareWithLoveApp.Services;
+using CareWithLoveApp.Models.Entities;
 
 namespace CareWithLoveApp.Controllers
 {
@@ -20,17 +22,19 @@ namespace CareWithLoveApp.Controllers
         }
 
         // GET: Avaliacoes
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var avaliacoes = _avaliacaoService.ObterTodasAvaliacoes();
-            var viewModel = avaliacoes.Select(a => new AvaliacaoViewModel
-            {
-                AvaliacaoId = a.AvaliacaoId,
-                Nota = a.Nota,
-                Review = a.Review
-            }).ToList();
+            var avaliacoes = _avaliacaoService.ObterTodasAvaliacoes()
+                .Select(a => new AvaliacaoViewModel
+                {
+                    AvaliacaoId = a.AvaliacaoId,
+                    Nota = a.Nota,
+                    Review = a.Review,
+                    UsuarioId = a.UsuarioId,
+                    Usuario = a.Usuario // Carregando o usuário relacionado
+                });
 
-            return View(viewModel);
+            return View(avaliacoes);
         }
 
         // GET: Avaliacoes/Create
@@ -43,40 +47,63 @@ namespace CareWithLoveApp.Controllers
         // POST: Avaliacoes/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(AvaliacaoInputModel inputModel)
+        public async Task<IActionResult> Create(AvaliacaoInputModel avaliacaoInputModel)
         {
             if (ModelState.IsValid)
             {
-                var usuario = _usuarioService.ObterUsuarioPorId(inputModel.UsuarioId);
-                if (usuario == null)
-                {
-                    ModelState.AddModelError(string.Empty, "Usuário não encontrado.");
-                    ViewData["UsuarioId"] = new SelectList(_usuarioService.ObterTodosUsuarios(), "UsuarioId", "UsuarioNome", inputModel.UsuarioId);
-                    return View(inputModel);
-                }
-
                 var avaliacao = new Avaliacao
                 {
                     AvaliacaoId = Guid.NewGuid(),
-                    Nota = inputModel.Nota,
-                    Review = inputModel.Review,
-                    UsuarioId = inputModel.UsuarioId,
-                    Usuario = usuario
+                    Nota = avaliacaoInputModel.Nota,
+                    Review = avaliacaoInputModel.Review,
+                    UsuarioId = avaliacaoInputModel.UsuarioId
                 };
 
                 _avaliacaoService.CriarAvaliacao(avaliacao);
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewData["UsuarioId"] = new SelectList(_usuarioService.ObterTodosUsuarios(), "UsuarioId", "UsuarioNome", inputModel.UsuarioId);
-            return View(inputModel);
+            // Recarrega os usuários no caso de falha na validação
+            ViewData["UsuarioId"] = new SelectList(_usuarioService.ObterTodosUsuarios(), "UsuarioId", "UsuarioNome", avaliacaoInputModel.UsuarioId);
+            return View(avaliacaoInputModel);
+        }
+
+        // GET: Avaliacoes/Delete/5
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            if (id == Guid.Empty)
+            {
+                return NotFound();
+            }
+
+            var avaliacao = _avaliacaoService.ObterAvaliacaoPorId(id);
+            if (avaliacao == null)
+            {
+                return NotFound();
+            }
+
+            var avaliacaoViewModel = new AvaliacaoViewModel
+            {
+                AvaliacaoId = avaliacao.AvaliacaoId,
+                Nota = avaliacao.Nota,
+                Review = avaliacao.Review,
+                UsuarioId = avaliacao.UsuarioId
+            };
+
+            return View(avaliacaoViewModel);
         }
 
         // POST: Avaliacoes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(Guid id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
+            var avaliacao = _avaliacaoService.ObterAvaliacaoPorId(id);
+            if (avaliacao == null)
+            {
+                return NotFound();
+            }
+
             _avaliacaoService.ExcluirAvaliacao(id);
             return RedirectToAction(nameof(Index));
         }
