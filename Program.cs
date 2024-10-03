@@ -21,6 +21,8 @@ builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<IDependenteService, DependenteService>();
 builder.Services.AddScoped<IDependenteRepository, DependenteRepository>();
+builder.Services.AddScoped<IServicoClienteService, ServicoClienteService>();
+builder.Services.AddScoped<IServicoClienteRepository, ServicoClienteRepository>();
 
 builder.Services.AddDbContext<MainContext>(
     options => options.UseSqlServer(connectionString)

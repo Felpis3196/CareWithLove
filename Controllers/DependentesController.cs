@@ -98,6 +98,7 @@ namespace AplicacaoCareWithLove.Controllers
                 _dependenteService.AdicionarDependente(dependente);
                 return RedirectToAction(nameof(Index));
             }
+            // Volta para a View com dependenteInputModel caso o ModelState não seja válido
             ViewData["UsuarioId"] = new SelectList(_usuarioService.ObterTodosUsuarios(), "UsuarioId", "UsuarioNome", dependenteInputModel.UsuarioId);
             return View(dependenteInputModel);
         }

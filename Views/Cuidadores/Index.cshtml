@@ -1,0 +1,65 @@
+﻿@model IEnumerable<CareWithLoveApp.Models.ViewModel.CuidadorViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CPF)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Experiencia)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ValorHora)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Disponibilidade)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Especializacoes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UsuarioNome)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CPF)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Experiencia)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ValorHora)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Disponibilidade)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Especializacoes)
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.UsuarioNome)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.CuidadorId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.CuidadorId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.CuidadorId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

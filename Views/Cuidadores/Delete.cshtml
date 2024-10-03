@@ -1,4 +1,4 @@
-﻿@model CareWithLoveApp.Models.ViewModels.DependenteViewModel
+﻿@model CareWithLoveApp.Models.ViewModel.CuidadorViewModel
 
 @{
     ViewData["Title"] = "Delete";
@@ -8,44 +8,38 @@
 
 <h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4>Dependente</h4>
+    <h4>Cuidador</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DependenteNome)
+            @Html.DisplayNameFor(model => model.CPF)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DependenteNome)
+            @Html.DisplayFor(model => model.CPF)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DependenteIdade)
+            @Html.DisplayNameFor(model => model.Experiencia)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DependenteIdade)
+            @Html.DisplayFor(model => model.Experiencia)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DependenteEndereco)
+            @Html.DisplayNameFor(model => model.ValorHora)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DependenteEndereco)
+            @Html.DisplayFor(model => model.ValorHora)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Insulina)
+            @Html.DisplayNameFor(model => model.Disponibilidade)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Insulina)
+            @Html.DisplayFor(model => model.Disponibilidade)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TelefoneEmergencia)
+            @Html.DisplayNameFor(model => model.Especializacoes)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TelefoneEmergencia)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Cuidados)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Cuidados)
+            @Html.DisplayFor(model => model.Especializacoes)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.UsuarioNome)
@@ -56,7 +50,7 @@
     </dl>
     
     <form asp-action="Delete">
-        <input type="hidden" asp-for="DependenteId" />
+        <input type="hidden" asp-for="CuidadorId" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-action="Index">Back to List</a>
     </form>

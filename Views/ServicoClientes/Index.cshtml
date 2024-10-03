@@ -1,0 +1,59 @@
+﻿@model IEnumerable<CareWithLoveApp.Models.ViewModels.ServicoClienteViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Descricao)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DataInicio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DataTermino)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Local)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DependenteNome)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descricao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataInicio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataTermino)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Local)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DependenteNome)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ServicoClienteId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ServicoClienteId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ServicoClienteId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

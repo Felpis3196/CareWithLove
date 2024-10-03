@@ -1,4 +1,6 @@
-﻿namespace CareWithLoveApp.Models.Entities
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace CareWithLoveApp.Models.Entities
 {
     public class Usuario
     {

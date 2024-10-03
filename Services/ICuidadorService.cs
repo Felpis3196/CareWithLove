@@ -4,11 +4,11 @@ namespace CareWithLoveApp.Services
 {
     public interface ICuidadorService
     {
-        Dependente? ObterDependentePorId(Guid id);
+        Cuidador? ObterCuidadorPorId(Guid id);
         IEnumerable<Cuidador> ObterTodosCuidadores();
-        void CriarDependente(Cuidador cuidador);
-        void AtualizarDependente(Cuidador cuidador);
-        void ExcluirDependente(Guid id);
-        void AdicionarDependente(Cuidador cuidador);
+        void CriarCuidador(Cuidador cuidador);
+        void AtualizarCuidador(Cuidador cuidador);
+        void ExcluirCuidador(Guid id);
+        void AdicionarCuidador(Cuidador cuidador);
     }
 }

@@ -1,4 +1,4 @@
-﻿@model CareWithLoveApp.Models.Entities.Dependente
+﻿@model CareWithLoveApp.Models.ViewModels.DependenteViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -47,10 +47,10 @@
             @Html.DisplayFor(model => model.Cuidados)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Usuario)
+            @Html.DisplayNameFor(model => model.UsuarioNome)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Usuario.UsuarioId)
+            @Html.DisplayFor(model => model.UsuarioId)
         </dd>
     </dl>
 </div>
