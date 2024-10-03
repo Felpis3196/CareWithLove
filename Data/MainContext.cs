@@ -12,6 +12,7 @@ namespace CareWithLoveApp.Data
         public DbSet<ServicoCliente> ServicoClientes { get; set;}
         public DbSet<ServicoCuidador> ServicoCuidadores { get; set;}
         public DbSet<Usuario> Usuarios { get;set;}
+        public DbSet<Avaliacao> Avaliacao { get; set;}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -20,6 +21,7 @@ namespace CareWithLoveApp.Data
             modelBuilder.Entity<ServicoCliente>().ToTable("tbServicoClientes");
             modelBuilder.Entity<ServicoCuidador>().ToTable("tbServicoCuidador");
             modelBuilder.Entity<Usuario>().ToTable("tbUsuario");
+            modelBuilder.Entity<Avaliacao>().ToTable("tbAvaliacao");
         }
     }
 }

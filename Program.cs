@@ -19,10 +19,21 @@ builder.Services.AddControllersWithViews();
 // Instanciando as services e reps
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+
 builder.Services.AddScoped<IDependenteService, DependenteService>();
 builder.Services.AddScoped<IDependenteRepository, DependenteRepository>();
+
+builder.Services.AddScoped<ICuidadorRepository, CuidadorRepository>();
+builder.Services.AddScoped<ICuidadorService, CuidadorService>();
+
 builder.Services.AddScoped<IServicoClienteService, ServicoClienteService>();
 builder.Services.AddScoped<IServicoClienteRepository, ServicoClienteRepository>();
+
+builder.Services.AddScoped<IServicoCuidadorRepository, ServicoCuidadorRepository>();
+builder.Services.AddScoped<IServicoCuidadorService, ServicoCuidadorService>();
+
+builder.Services.AddScoped<IAvaliacaoRepository, AvaliacaoRepository>();
+builder.Services.AddScoped<IAvaliacaoService, AvaliacaoService>();
 
 builder.Services.AddDbContext<MainContext>(
     options => options.UseSqlServer(connectionString)

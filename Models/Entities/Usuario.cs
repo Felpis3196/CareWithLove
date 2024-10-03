@@ -21,6 +21,9 @@ namespace CareWithLoveApp.Models.Entities
 
         // Relacionamento um-para-muitos com Dependente
         public ICollection<Dependente>? Dependentes { get; set; }
+
+        // Relacionamento um-para-muitos com Avaliacao
+        public ICollection<Avaliacao>? Avaliacoes { get; set; }
     }
 
 }

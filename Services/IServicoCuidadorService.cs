@@ -4,7 +4,7 @@ namespace CareWithLoveApp.Services
 {
     public interface IServicoCuidadorService
     {
-        Dependente? ObterServicoCuidadorPorId(Guid id);
+        ServicoCuidador? ObterServicoCuidadorPorId(Guid id);
         IEnumerable<ServicoCuidador> ObterTodosServicosCuidadores();
         void CriarServicoCuidador(ServicoCuidador servicoCuidador);
         void AtualizarServicoCuidador(ServicoCuidador servicoCuidador);

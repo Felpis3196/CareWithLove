@@ -21,7 +21,7 @@ namespace CareWithLoveApp.Repositories
         public ServicoCuidador? GetById(Guid id)
         {
             return _context.ServicoCuidadores
-                .Include(s=>s.CuidadorId)
+                .Include(s => s.CuidadorId)
                 .FirstOrDefault(s => s.ServicoCuidadorId == id);
 
         }
@@ -39,7 +39,8 @@ namespace CareWithLoveApp.Repositories
         public IEnumerable<ServicoCuidador> GetAll()
         {
             return _context.ServicoCuidadores
-                .Include(s => s.CuidadorId);
+                .Include(c => c.Cuidador)
+                .ThenInclude(c => c.Usuario);
         }
 
 
