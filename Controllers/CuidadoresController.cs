@@ -68,7 +68,9 @@ namespace CareWithLoveApp.Controllers
         // GET: Cuidadores/Create
         public IActionResult Create()
         {
-            ViewData["UsuarioId"] = new SelectList(_usuarioService.ObterTodosUsuarios(), "UsuarioId", "UsuarioNome");
+            // Carregar a lista de usuários no ViewData para popular o SelectList
+            var usuarios = _usuarioService.ObterTodosUsuarios();
+            ViewData["UsuarioId"] = new SelectList(usuarios, "UsuarioId", "UsuarioNome");
             return View();
         }
 
@@ -93,7 +95,9 @@ namespace CareWithLoveApp.Controllers
                 _cuidadorService.CriarCuidador(cuidador);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UsuarioId"] = new SelectList(_usuarioService.ObterTodosUsuarios(), "UsuarioId", "UsuarioNome", cuidadorInputModel.UsuarioId);
+
+            var usuarios = _usuarioService.ObterTodosUsuarios();
+            ViewData["UsuarioId"] = new SelectList(usuarios, "UsuarioId", "UsuarioNome", cuidadorInputModel.UsuarioId);
             return View(cuidadorInputModel);
         }
 
