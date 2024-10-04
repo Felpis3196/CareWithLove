@@ -56,14 +56,14 @@ namespace CareWithLoveApp.Controllers
                     AvaliacaoId = Guid.NewGuid(),
                     Nota = avaliacaoInputModel.Nota,
                     Review = avaliacaoInputModel.Review,
-                    UsuarioId = avaliacaoInputModel.UsuarioId
+                    UsuarioId = avaliacaoInputModel.UsuarioId,
+                    Usuario = _usuarioService.ObterUsuarioPorId(avaliacaoInputModel.UsuarioId)          
                 };
 
                 _avaliacaoService.CriarAvaliacao(avaliacao);
                 return RedirectToAction(nameof(Index));
             }
 
-            // Recarrega os usuários no caso de falha na validação
             ViewData["UsuarioId"] = new SelectList(_usuarioService.ObterTodosUsuarios(), "UsuarioId", "UsuarioNome", avaliacaoInputModel.UsuarioId);
             return View(avaliacaoInputModel);
         }

@@ -19,10 +19,23 @@ namespace CareWithLoveApp.Repositories
                 .FirstOrDefault(a => a.AvaliacaoId == id);
         }
         public void Add(Avaliacao avaliacao)
-        { 
-            _context.Add(avaliacao);
-            _context.SaveChanges();
+        {
+            if (avaliacao == null)
+            {
+                throw new ArgumentNullException(nameof(avaliacao), "A avaliação não pode ser nula.");
+            }
+
+            try
+            {
+                _context.Avaliacao.Add(avaliacao);
+                _context.SaveChanges();
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new Exception("Ocorreu um erro ao salvar a avaliação no banco de dados.", ex);
+            }
         }
+
         public void Delete(Guid id)
         {
             var avaliacao = GetById(id);

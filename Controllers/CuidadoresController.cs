@@ -96,8 +96,7 @@ namespace CareWithLoveApp.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            var usuarios = _usuarioService.ObterTodosUsuarios();
-            ViewData["UsuarioId"] = new SelectList(usuarios, "UsuarioId", "UsuarioNome", cuidadorInputModel.UsuarioId);
+            ViewData["UsuarioId"] = new SelectList(_usuarioService.ObterTodosUsuarios(), "UsuarioId", "UsuarioNome", cuidadorInputModel.UsuarioId);
             return View(cuidadorInputModel);
         }
 

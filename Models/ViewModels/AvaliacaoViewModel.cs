@@ -10,6 +10,6 @@ namespace CareWithLoveApp.Models.ViewModels
 
         // Chave estrangeira e relacionamento com Usuario
         public Guid UsuarioId { get; set; }
-        public Usuario Usuario { get; set; }
+        public Usuario? Usuario { get; set; }
     }
 }

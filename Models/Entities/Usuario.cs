@@ -20,10 +20,10 @@ namespace CareWithLoveApp.Models.Entities
         public Cuidador? Cuidador { get; set; }
 
         // Relacionamento um-para-muitos com Dependente
-        public ICollection<Dependente>? Dependentes { get; set; }
+        public IEnumerable<Dependente>? Dependentes { get; set; }
 
         // Relacionamento um-para-muitos com Avaliacao
-        public ICollection<Avaliacao>? Avaliacoes { get; set; }
+        public IEnumerable<Avaliacao>? Avaliacoes { get; set; }
     }
 
 }
