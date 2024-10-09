@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CareWithLoveApp.Migrations
 {
     [DbContext(typeof(MainContext))]
-    [Migration("20240927105314_Migracao1")]
-    partial class Migracao1
+    [Migration("20241009195042_Por favor deus")]
+    partial class Porfavordeus
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,29 @@ namespace CareWithLoveApp.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("CareWithLoveApp.Models.Entities.Avaliacao", b =>
+                {
+                    b.Property<Guid>("AvaliacaoId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Nota")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Review")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UsuarioId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("AvaliacaoId");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("tbAvaliacao", (string)null);
+                });
 
             modelBuilder.Entity("CareWithLoveApp.Models.Entities.Cuidador", b =>
                 {
@@ -187,6 +210,17 @@ namespace CareWithLoveApp.Migrations
                     b.ToTable("tbUsuario", (string)null);
                 });
 
+            modelBuilder.Entity("CareWithLoveApp.Models.Entities.Avaliacao", b =>
+                {
+                    b.HasOne("CareWithLoveApp.Models.Entities.Usuario", "Usuario")
+                        .WithMany("Avaliacoes")
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Usuario");
+                });
+
             modelBuilder.Entity("CareWithLoveApp.Models.Entities.Cuidador", b =>
                 {
                     b.HasOne("CareWithLoveApp.Models.Entities.Usuario", "Usuario")
@@ -235,6 +269,8 @@ namespace CareWithLoveApp.Migrations
 
             modelBuilder.Entity("CareWithLoveApp.Models.Entities.Usuario", b =>
                 {
+                    b.Navigation("Avaliacoes");
+
                     b.Navigation("Cuidador");
 
                     b.Navigation("Dependentes");

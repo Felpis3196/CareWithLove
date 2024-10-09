@@ -5,7 +5,7 @@
 namespace CareWithLoveApp.Migrations
 {
     /// <inheritdoc />
-    public partial class Migracao1 : Migration
+    public partial class Porfavordeus : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

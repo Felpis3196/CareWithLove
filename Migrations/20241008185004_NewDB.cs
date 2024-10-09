@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CareWithLoveApp.Migrations
 {
     /// <inheritdoc />
-    public partial class Migracao : Migration
+    public partial class NewDB : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -28,6 +28,26 @@ namespace CareWithLoveApp.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_tbUsuario", x => x.UsuarioId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tbAvaliacao",
+                columns: table => new
+                {
+                    AvaliacaoId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Nota = table.Column<int>(type: "int", nullable: false),
+                    Review = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UsuarioId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tbAvaliacao", x => x.AvaliacaoId);
+                    table.ForeignKey(
+                        name: "FK_tbAvaliacao_tbUsuario_UsuarioId",
+                        column: x => x.UsuarioId,
+                        principalTable: "tbUsuario",
+                        principalColumn: "UsuarioId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -118,6 +138,11 @@ namespace CareWithLoveApp.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_tbAvaliacao_UsuarioId",
+                table: "tbAvaliacao",
+                column: "UsuarioId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_tbCuidador_UsuarioId",
                 table: "tbCuidador",
                 column: "UsuarioId",
@@ -143,6 +168,9 @@ namespace CareWithLoveApp.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "tbAvaliacao");
+
             migrationBuilder.DropTable(
                 name: "tbServicoClientes");
 
