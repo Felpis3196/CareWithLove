@@ -1,21 +1,28 @@
-﻿using CareWithLoveApp.Services;
-using CareWithLoveApp.Models.InputModels;
-using CareWithLoveApp.Models.ViewModel;
-using CareWithLoveApp.Models.Entities;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using CareWithLoveApp.Models.InputModels;
+using CareWithLoveApp.Models.ViewModels;
+using CareWithLoveApp.Services;
+using CareWithLoveApp.Models.Entities;
+using CareWithLoveApp.Models.ViewModel;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace CareWithLoveApp.Controllers
 {
     public class CuidadoresController : Controller
     {
         private readonly ICuidadorService _cuidadorService;
-        private readonly IUsuarioService _usuarioService;
+        private readonly UserManager<User> _userManager;
 
-        public CuidadoresController(ICuidadorService cuidadorService, IUsuarioService usuarioService)
+        public CuidadoresController(ICuidadorService cuidadorService, UserManager<User> userManager)
         {
             _cuidadorService = cuidadorService;
-            _usuarioService = usuarioService;
+            _userManager = userManager;
         }
 
         // GET: Cuidadores
@@ -30,7 +37,7 @@ namespace CareWithLoveApp.Controllers
                     ValorHora = c.ValorHora,
                     Disponibilidade = c.Disponibilidade,
                     Especializacoes = c.Especializacoes,
-                    UsuarioId = c.UsuarioId,
+                    UsuarioId = Guid.Parse(c.UsuarioId),
                     UsuarioNome = c.Usuario?.UsuarioNome
                 });
             return View(cuidadores);
@@ -58,7 +65,7 @@ namespace CareWithLoveApp.Controllers
                 ValorHora = cuidador.ValorHora,
                 Disponibilidade = cuidador.Disponibilidade,
                 Especializacoes = cuidador.Especializacoes,
-                UsuarioId = cuidador.UsuarioId,
+                UsuarioId = Guid.Parse(cuidador.UsuarioId),
                 UsuarioNome = cuidador.Usuario?.UsuarioNome
             };
 
@@ -66,11 +73,11 @@ namespace CareWithLoveApp.Controllers
         }
 
         // GET: Cuidadores/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             // Carregar a lista de usuários no ViewData para popular o SelectList
-            var usuarios = _usuarioService.ObterTodosUsuarios();
-            ViewData["UsuarioId"] = new SelectList(usuarios, "UsuarioId", "UsuarioNome");
+            var usuarios = await _userManager.Users.ToListAsync();
+            ViewData["UsuarioId"] = new SelectList(usuarios, "Id", "UsuarioNome");
             return View();
         }
 
@@ -89,14 +96,14 @@ namespace CareWithLoveApp.Controllers
                     ValorHora = cuidadorInputModel.ValorHora,
                     Disponibilidade = cuidadorInputModel.Disponibilidade,
                     Especializacoes = cuidadorInputModel.Especializacoes,
-                    UsuarioId = cuidadorInputModel.UsuarioId
+                    UsuarioId = cuidadorInputModel.Usuario.Id
                 };
 
                 _cuidadorService.CriarCuidador(cuidador);
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewData["UsuarioId"] = new SelectList(_usuarioService.ObterTodosUsuarios(), "UsuarioId", "UsuarioNome", cuidadorInputModel.UsuarioId);
+            cuidadorInputModel.UsuarioId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             return View(cuidadorInputModel);
         }
 
@@ -122,10 +129,11 @@ namespace CareWithLoveApp.Controllers
                 ValorHora = cuidador.ValorHora,
                 Disponibilidade = cuidador.Disponibilidade,
                 Especializacoes = cuidador.Especializacoes,
-                UsuarioId = cuidador.UsuarioId
+                UsuarioId = Guid.Parse(cuidador.UsuarioId)
             };
 
-            ViewData["UsuarioId"] = new SelectList(_usuarioService.ObterTodosUsuarios(), "UsuarioId", "UsuarioNome", cuidador.UsuarioId);
+            var usuarios = await _userManager.Users.ToListAsync();
+            ViewData["UsuarioId"] = new SelectList(usuarios, "Id", "UsuarioNome", cuidador.UsuarioId);
             return View(cuidadorInputModel);
         }
 
@@ -149,13 +157,15 @@ namespace CareWithLoveApp.Controllers
                     ValorHora = cuidadorInputModel.ValorHora,
                     Disponibilidade = cuidadorInputModel.Disponibilidade,
                     Especializacoes = cuidadorInputModel.Especializacoes,
-                    UsuarioId = cuidadorInputModel.UsuarioId
+                    UsuarioId = cuidadorInputModel.Usuario.Id
                 };
 
                 _cuidadorService.AtualizarCuidador(cuidador);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UsuarioId"] = new SelectList(_usuarioService.ObterTodosUsuarios(), "UsuarioId", "UsuarioNome", cuidadorInputModel.UsuarioId);
+
+            var usuarios = await _userManager.Users.ToListAsync();
+            ViewData["UsuarioId"] = new SelectList(usuarios, "Id", "UsuarioNome", cuidadorInputModel.UsuarioId);
             return View(cuidadorInputModel);
         }
 
@@ -181,7 +191,7 @@ namespace CareWithLoveApp.Controllers
                 ValorHora = cuidador.ValorHora,
                 Disponibilidade = cuidador.Disponibilidade,
                 Especializacoes = cuidador.Especializacoes,
-                UsuarioId = cuidador.UsuarioId,
+                UsuarioId = Guid.Parse(cuidador.UsuarioId),
                 UsuarioNome = cuidador.Usuario?.UsuarioNome
             };
 

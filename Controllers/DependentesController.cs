@@ -3,23 +3,26 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using CareWithLoveApp.Services;
+using Microsoft.AspNetCore.Identity; // Importante para o UserManager
 using CareWithLoveApp.Models.InputModels;
 using CareWithLoveApp.Models.OutputModels;
 using CareWithLoveApp.Models.Entities;
 using CareWithLoveApp.Models.ViewModels;
+using CareWithLoveApp.Services;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace AplicacaoCareWithLove.Controllers
 {
     public class DependentesController : Controller
     {
         private readonly IDependenteService _dependenteService;
-        private readonly IUsuarioService _usuarioService;
+        private readonly UserManager<User> _userManager;
 
-        public DependentesController(IDependenteService dependenteService, IUsuarioService usuarioService)
+        public DependentesController(IDependenteService dependenteService, UserManager<User> userManager)
         {
             _dependenteService = dependenteService;
-            _usuarioService = usuarioService;
+            _userManager = userManager; 
         }
 
         // GET: Dependentes
@@ -70,9 +73,10 @@ namespace AplicacaoCareWithLove.Controllers
         }
 
         // GET: Dependentes/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["UsuarioId"] = new SelectList(_usuarioService.ObterTodosUsuarios(), "UsuarioId", "UsuarioNome");
+            var usuarios = await _userManager.Users.ToListAsync(); 
+            ViewData["UsuarioId"] = new SelectList(usuarios, "Id", "UserName"); 
             return View();
         }
 
@@ -98,8 +102,9 @@ namespace AplicacaoCareWithLove.Controllers
                 _dependenteService.AdicionarDependente(dependente);
                 return RedirectToAction(nameof(Index));
             }
-            // Volta para a View com dependenteInputModel caso o ModelState não seja válido
-            ViewData["UsuarioId"] = new SelectList(_usuarioService.ObterTodosUsuarios(), "UsuarioId", "UsuarioNome", dependenteInputModel.UsuarioId);
+
+            var usuarios = await _userManager.Users.ToListAsync();
+            ViewData["UsuarioId"] = new SelectList(usuarios, "Id", "UserName", dependenteInputModel.UsuarioId);
             return View(dependenteInputModel);
         }
 
@@ -129,7 +134,8 @@ namespace AplicacaoCareWithLove.Controllers
                 UsuarioId = dependente.UsuarioId
             };
 
-            ViewData["UsuarioId"] = new SelectList(_usuarioService.ObterTodosUsuarios(), "UsuarioId", "UsuarioNome", dependente.UsuarioId);
+            var usuarios = await _userManager.Users.ToListAsync(); 
+            ViewData["UsuarioId"] = new SelectList(usuarios, "Id", "UserName", dependente.UsuarioId);
             return View(dependenteInputModel);
         }
 
@@ -160,7 +166,7 @@ namespace AplicacaoCareWithLove.Controllers
                 _dependenteService.AtualizarDependente(dependente);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UsuarioId"] = new SelectList(_usuarioService.ObterTodosUsuarios(), "UsuarioId", "UsuarioNome", dependenteInputModel.UsuarioId);
+            dependenteInputModel.UsuarioId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             return View(dependenteInputModel);
         }
 

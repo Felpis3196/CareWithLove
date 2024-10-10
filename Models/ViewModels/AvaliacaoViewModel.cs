@@ -20,6 +20,6 @@ namespace CareWithLoveApp.Models.ViewModels
         public Guid UsuarioId { get; set; }
 
         [Display(Name = "Usuário")]
-        public Usuario? Usuario { get; set; }
+        public User? Usuario { get; set; }
     }
 }

@@ -12,7 +12,7 @@
 
         // Relacionamento de muitos-para-um com Usuario
         public Guid? UsuarioId { get; set; }
-        public Usuario? Usuario { get; set; }
+        public User? Usuario { get; set; }
 
         // Relacionamento de um-para-muitos com ServicoClientes
         public ICollection<ServicoCliente>? ServicosClientes { get; set; }

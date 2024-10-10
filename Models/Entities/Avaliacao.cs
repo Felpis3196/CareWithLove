@@ -8,6 +8,6 @@
 
         // Chave estrangeira e relacionamento com Usuario
         public Guid UsuarioId { get; set; }
-        public Usuario Usuario { get; set; }
+        public User Usuario { get; set; }
     }
 }

@@ -141,7 +141,6 @@ namespace CareWithLoveApp.Areas.Identity.Pages.Account
                 // Criar um novo usuário com base no InputModel
                 var user = new User
                 {
-                    UsuarioId = Guid.NewGuid(), // Gera um novo GUID
                     Email = Input.Email, // Email do InputModel
                     UserName = Input.Email, // O nome de usuário também será o email
                     UsuarioNome = Input.UsuarioNome, // Nome do usuário

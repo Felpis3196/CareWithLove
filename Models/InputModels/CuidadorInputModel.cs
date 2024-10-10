@@ -37,7 +37,7 @@ namespace CareWithLoveApp.Models.InputModels
         [Display(Name = "Usuário")]
         public Guid? UsuarioId { get; set; }
 
-        public Usuario? Usuario { get; set; }
+        public User? Usuario { get; set; }
 
         // Relacionamento de um-para-muitos com ServicoCuidador
         public ICollection<ServicoCuidador>? ServicosCuidador { get; set; }

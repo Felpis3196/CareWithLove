@@ -18,9 +18,6 @@ builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfi
 builder.Services.AddControllersWithViews();
 
 // Instanciando as services e reps
-builder.Services.AddScoped<IUsuarioService, UsuarioService>();
-builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
-
 builder.Services.AddScoped<IDependenteService, DependenteService>();
 builder.Services.AddScoped<IDependenteRepository, DependenteRepository>();
 

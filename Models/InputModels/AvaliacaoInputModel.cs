@@ -14,6 +14,6 @@ namespace CareWithLoveApp.Models.InputModels
         public string Review { get; set; }
         [Required]
         public Guid UsuarioId { get; set; }
-        public Usuario? Usuario { get; set; }
+        public User? Usuario { get; set; }
     }
 }
