@@ -4,19 +4,16 @@ using CareWithLoveApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace CareWithLoveApp.Data.Migrations
+namespace CareWithLoveApp.Migrations.ApplicationDb
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241009225932_ReplaceIdentityUserWithUsuario")]
-    partial class ReplaceIdentityUserWithUsuario
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,6 +22,163 @@ namespace CareWithLoveApp.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("CareWithLoveApp.Models.Entities.Avaliacao", b =>
+                {
+                    b.Property<Guid>("AvaliacaoId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Nota")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Review")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UsuarioId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UsuarioId1")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("AvaliacaoId");
+
+                    b.HasIndex("UsuarioId1");
+
+                    b.ToTable("Avaliacao", "Identity");
+                });
+
+            modelBuilder.Entity("CareWithLoveApp.Models.Entities.Cuidador", b =>
+                {
+                    b.Property<Guid>("CuidadorId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CPF")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Disponibilidade")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Especializacoes")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Experiencia")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UsuarioId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<decimal?>("ValorHora")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("CuidadorId");
+
+                    b.HasIndex("UsuarioId")
+                        .IsUnique()
+                        .HasFilter("[UsuarioId] IS NOT NULL");
+
+                    b.ToTable("Cuidador", "Identity");
+                });
+
+            modelBuilder.Entity("CareWithLoveApp.Models.Entities.Dependente", b =>
+                {
+                    b.Property<Guid>("DependenteId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Cuidados")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DependenteEndereco")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("DependenteIdade")
+                        .HasColumnType("int");
+
+                    b.Property<string>("DependenteNome")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("Insulina")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("TelefoneEmergencia")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("UsuarioId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UsuarioId1")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("DependenteId");
+
+                    b.HasIndex("UsuarioId1");
+
+                    b.ToTable("Dependente", "Identity");
+                });
+
+            modelBuilder.Entity("CareWithLoveApp.Models.Entities.ServicoCliente", b =>
+                {
+                    b.Property<Guid>("ServicoClienteId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("DataInicio")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DataTermino")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("DependenteId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Descricao")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Local")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ServicoClienteId");
+
+                    b.HasIndex("DependenteId");
+
+                    b.ToTable("ServicoCliente", "Identity");
+                });
+
+            modelBuilder.Entity("CareWithLoveApp.Models.Entities.ServicoCuidador", b =>
+                {
+                    b.Property<Guid>("ServicoCuidadorId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CuidadorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("DataInicio")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DataTermino")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Descricao")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Preferencia")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ServicoCuidadorId");
+
+                    b.HasIndex("CuidadorId");
+
+                    b.ToTable("ServicoCuidador", "Identity");
+                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -237,9 +391,6 @@ namespace CareWithLoveApp.Data.Migrations
                     b.Property<DateOnly>("DataNascimento")
                         .HasColumnType("date");
 
-                    b.Property<Guid>("UsuarioId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("UsuarioLogradouro")
                         .HasColumnType("nvarchar(max)");
 
@@ -256,6 +407,53 @@ namespace CareWithLoveApp.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.ToTable("User", "Identity");
+                });
+
+            modelBuilder.Entity("CareWithLoveApp.Models.Entities.Avaliacao", b =>
+                {
+                    b.HasOne("CareWithLoveApp.Models.Entities.User", "Usuario")
+                        .WithMany("Avaliacoes")
+                        .HasForeignKey("UsuarioId1")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("CareWithLoveApp.Models.Entities.Cuidador", b =>
+                {
+                    b.HasOne("CareWithLoveApp.Models.Entities.User", "Usuario")
+                        .WithOne("Cuidador")
+                        .HasForeignKey("CareWithLoveApp.Models.Entities.Cuidador", "UsuarioId");
+
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("CareWithLoveApp.Models.Entities.Dependente", b =>
+                {
+                    b.HasOne("CareWithLoveApp.Models.Entities.User", "Usuario")
+                        .WithMany("Dependentes")
+                        .HasForeignKey("UsuarioId1");
+
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("CareWithLoveApp.Models.Entities.ServicoCliente", b =>
+                {
+                    b.HasOne("CareWithLoveApp.Models.Entities.Dependente", "Dependente")
+                        .WithMany("ServicosClientes")
+                        .HasForeignKey("DependenteId");
+
+                    b.Navigation("Dependente");
+                });
+
+            modelBuilder.Entity("CareWithLoveApp.Models.Entities.ServicoCuidador", b =>
+                {
+                    b.HasOne("CareWithLoveApp.Models.Entities.Cuidador", "Cuidador")
+                        .WithMany("ServicosCuidador")
+                        .HasForeignKey("CuidadorId");
+
+                    b.Navigation("Cuidador");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -316,6 +514,25 @@ namespace CareWithLoveApp.Data.Migrations
                         .HasForeignKey("CareWithLoveApp.Models.Entities.User", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("CareWithLoveApp.Models.Entities.Cuidador", b =>
+                {
+                    b.Navigation("ServicosCuidador");
+                });
+
+            modelBuilder.Entity("CareWithLoveApp.Models.Entities.Dependente", b =>
+                {
+                    b.Navigation("ServicosClientes");
+                });
+
+            modelBuilder.Entity("CareWithLoveApp.Models.Entities.User", b =>
+                {
+                    b.Navigation("Avaliacoes");
+
+                    b.Navigation("Cuidador");
+
+                    b.Navigation("Dependentes");
                 });
 #pragma warning restore 612, 618
         }

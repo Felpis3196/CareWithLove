@@ -30,11 +30,13 @@ namespace CareWithLoveApp.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<User> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public RegisterModel(
             UserManager<User> userManager,
             IUserStore<User> userStore,
             SignInManager<User> signInManager,
+            RoleManager<IdentityRole> roleManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
         {
@@ -42,6 +44,7 @@ namespace CareWithLoveApp.Areas.Identity.Pages.Account
             _userStore = userStore;
             _emailStore = GetEmailStore();
             _signInManager = signInManager;
+            _roleManager = roleManager;
             _logger = logger;
             _emailSender = emailSender;
         }
@@ -136,71 +139,88 @@ namespace CareWithLoveApp.Areas.Identity.Pages.Account
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
-            if (ModelState.IsValid)
+            var dataNascimento = Input.DataNascimento;
+            var diaHoje = DateOnly.FromDateTime(DateTime.Today);
+            var idade = diaHoje.Year - dataNascimento.Year;
+
+            if (dataNascimento > diaHoje.AddYears(-idade))
             {
-                // Criar um novo usuário com base no InputModel
+                idade--;
+            }
+
+            if (ModelState.IsValid && idade > 21)
+            {
                 var user = new User
                 {
-                    Email = Input.Email, // Email do InputModel
-                    UserName = Input.Email, // O nome de usuário também será o email
-                    UsuarioNome = Input.UsuarioNome, // Nome do usuário
-                    UsuarioSexo = Input.UsuarioSexo, // Sexo do usuário
-                    UsuarioTelefone = Input.UsuarioTelefone, // Telefone
-                    DataNascimento = Input.DataNascimento, // Data de Nascimento
-                    UsuarioLogradouro = Input.UsuarioLogradouro, // Logradouro/Endereço
-                    UsuarioTipo = Input.UsuarioTipo // Tipo de usuário (Cuidador ou Responsável)
+                    Email = Input.Email,
+                    UserName = Input.Email,
+                    UsuarioNome = Input.UsuarioNome,
+                    UsuarioSexo = Input.UsuarioSexo,
+                    UsuarioTelefone = Input.UsuarioTelefone,
+                    DataNascimento = Input.DataNascimento,
+                    UsuarioLogradouro = Input.UsuarioLogradouro,
+                    UsuarioTipo = Input.UsuarioTipo // Este campo será o role
                 };
 
-                // Define o nome de usuário e o email usando o _userStore e _emailStore
+                // Define o nome de usuário e o email
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
 
-                // Cria o usuário com a senha fornecida
+                // Cria o usuário
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
 
+                    // Verifica se o role existe, caso contrário, cria-o
+                    if (!await _roleManager.RoleExistsAsync(user.UsuarioTipo))
+                    {
+                        var roleResult = await _roleManager.CreateAsync(new IdentityRole(user.UsuarioTipo));
+                        if (!roleResult.Succeeded)
+                        {
+                            ModelState.AddModelError(string.Empty, "Erro ao criar o papel de usuário.");
+                            return Page();
+                        }
+                    }
+
+                    // Atribui o role ao usuário
+                    await _userManager.AddToRoleAsync(user, user.UsuarioTipo);
+
                     // Gera o código de confirmação de email
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
 
-                    // Gera o URL de callback para confirmação de email
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",
                         pageHandler: null,
                         values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    // Envia email de confirmação
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-                    // Verifica se a confirmação de conta é necessária
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
                         return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
                     }
                     else
                     {
-                        // Faz o login automático do usuário recém-criado
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         return LocalRedirect(returnUrl);
                     }
                 }
 
-                // Adiciona os erros, caso o cadastro falhe
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
 
-            // Se houve algum erro na validação, redireciona para a página de registro com as mensagens de erro
             return Page();
         }
+
 
 
         private User CreateUser()

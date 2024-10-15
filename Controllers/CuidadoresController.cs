@@ -11,9 +11,11 @@ using CareWithLoveApp.Models.Entities;
 using CareWithLoveApp.Models.ViewModel;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CareWithLoveApp.Controllers
 {
+    //[Authorize(Roles = "Cuidador")]
     public class CuidadoresController : Controller
     {
         private readonly ICuidadorService _cuidadorService;

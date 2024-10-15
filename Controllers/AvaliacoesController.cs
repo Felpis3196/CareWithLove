@@ -10,6 +10,7 @@ using CareWithLoveApp.Services;
 using CareWithLoveApp.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CareWithLoveApp.Controllers
 {

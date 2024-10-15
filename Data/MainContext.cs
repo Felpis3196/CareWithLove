@@ -16,12 +16,12 @@ namespace CareWithLoveApp.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Cuidador>().ToTable("tbCuidador");
-            modelBuilder.Entity<Dependente>().ToTable("tbDependente");
-            modelBuilder.Entity<ServicoCliente>().ToTable("tbServicoClientes");
-            modelBuilder.Entity<ServicoCuidador>().ToTable("tbServicoCuidador");
-            modelBuilder.Entity<Usuario>().ToTable("tbUsuario");
-            modelBuilder.Entity<Avaliacao>().ToTable("tbAvaliacao");
+            modelBuilder.Entity<Cuidador>().ToTable("Cuidador");
+            modelBuilder.Entity<Dependente>().ToTable("Dependente");
+            modelBuilder.Entity<ServicoCliente>().ToTable("ServicoClientes");
+            modelBuilder.Entity<ServicoCuidador>().ToTable("ServicoCuidador");
+            modelBuilder.Entity<User>().ToTable("Usuario");
+            modelBuilder.Entity<Avaliacao>().ToTable("Avaliacao");
 
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<User>()

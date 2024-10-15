@@ -11,9 +11,11 @@ using CareWithLoveApp.Models.ViewModels;
 using CareWithLoveApp.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AplicacaoCareWithLove.Controllers
 {
+    //[Authorize(Roles = "Responsavel")]
     public class DependentesController : Controller
     {
         private readonly IDependenteService _dependenteService;

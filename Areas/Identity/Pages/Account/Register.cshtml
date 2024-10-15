@@ -24,10 +24,9 @@
             </div>
             <div class="form-floating mb-3">
                 <select asp-for="Input.UsuarioSexo" class="form-control" aria-required="true">
-                    <option value="">Select Gender</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                    <option value="Other">Other</option>
+                    <option value="Masculino">Masculino</option>
+                    <option value="Feminino">Feminino</option>
+                    <option value="Outro">Outro</option>
                 </select>
                 <label asp-for="Input.UsuarioSexo">Gender</label>
                 <span asp-validation-for="Input.UsuarioSexo" class="text-danger"></span>
@@ -49,9 +48,8 @@
             </div>
             <div class="form-floating mb-3">
                 <select asp-for="Input.UsuarioTipo" class="form-control" aria-required="true">
-                    <option value="">Select User Type</option>
                     <option value="Cuidador">Cuidador</option>
-                    <option value="Responsável">Responsável por Dependentes</option>
+                    <option value="Responsavel">Responsável por Dependentes</option>
                 </select>
                 <label asp-for="Input.UsuarioTipo">User Type</label>
                 <span asp-validation-for="Input.UsuarioTipo" class="text-danger"></span>
