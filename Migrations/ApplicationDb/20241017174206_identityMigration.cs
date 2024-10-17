@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CareWithLoveApp.Migrations.ApplicationDb
 {
     /// <inheritdoc />
-    public partial class migrationIdentity : Migration
+    public partial class identityMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -108,8 +108,8 @@ namespace CareWithLoveApp.Migrations.ApplicationDb
                 schema: "Identity",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
@@ -131,8 +131,8 @@ namespace CareWithLoveApp.Migrations.ApplicationDb
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -202,22 +202,20 @@ namespace CareWithLoveApp.Migrations.ApplicationDb
                 schema: "Identity",
                 columns: table => new
                 {
-                    AvaliacaoId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AvaliacaoId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Nota = table.Column<int>(type: "int", nullable: false),
                     Review = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UsuarioId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UsuarioId1 = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    UsuarioId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Avaliacao", x => x.AvaliacaoId);
                     table.ForeignKey(
-                        name: "FK_Avaliacao_User_UsuarioId1",
-                        column: x => x.UsuarioId1,
+                        name: "FK_Avaliacao_User_UsuarioId",
+                        column: x => x.UsuarioId,
                         principalSchema: "Identity",
                         principalTable: "User",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -225,7 +223,7 @@ namespace CareWithLoveApp.Migrations.ApplicationDb
                 schema: "Identity",
                 columns: table => new
                 {
-                    CuidadorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CuidadorId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     CPF = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Experiencia = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ValorHora = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
@@ -249,22 +247,21 @@ namespace CareWithLoveApp.Migrations.ApplicationDb
                 schema: "Identity",
                 columns: table => new
                 {
-                    DependenteId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    DependenteId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     DependenteNome = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DependenteIdade = table.Column<int>(type: "int", nullable: true),
                     DependenteEndereco = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Insulina = table.Column<bool>(type: "bit", nullable: true),
                     TelefoneEmergencia = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Cuidados = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UsuarioId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    UsuarioId1 = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    UsuarioId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Dependente", x => x.DependenteId);
                     table.ForeignKey(
-                        name: "FK_Dependente_User_UsuarioId1",
-                        column: x => x.UsuarioId1,
+                        name: "FK_Dependente_User_UsuarioId",
+                        column: x => x.UsuarioId,
                         principalSchema: "Identity",
                         principalTable: "User",
                         principalColumn: "Id");
@@ -275,12 +272,12 @@ namespace CareWithLoveApp.Migrations.ApplicationDb
                 schema: "Identity",
                 columns: table => new
                 {
-                    ServicoCuidadorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ServicoCuidadorId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Descricao = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DataInicio = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DataTermino = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Preferencia = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CuidadorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    CuidadorId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -298,12 +295,12 @@ namespace CareWithLoveApp.Migrations.ApplicationDb
                 schema: "Identity",
                 columns: table => new
                 {
-                    ServicoClienteId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ServicoClienteId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Descricao = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DataInicio = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DataTermino = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Local = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DependenteId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    DependenteId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -331,10 +328,10 @@ namespace CareWithLoveApp.Migrations.ApplicationDb
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Avaliacao_UsuarioId1",
+                name: "IX_Avaliacao_UsuarioId",
                 schema: "Identity",
                 table: "Avaliacao",
-                column: "UsuarioId1");
+                column: "UsuarioId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cuidador_UsuarioId",
@@ -345,10 +342,10 @@ namespace CareWithLoveApp.Migrations.ApplicationDb
                 filter: "[UsuarioId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Dependente_UsuarioId1",
+                name: "IX_Dependente_UsuarioId",
                 schema: "Identity",
                 table: "Dependente",
-                column: "UsuarioId1");
+                column: "UsuarioId");
 
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",

@@ -2,7 +2,7 @@
 {
     public class Cuidador
     {
-        public Guid CuidadorId { get; set; }
+        public String? CuidadorId { get; set; }
         public string? CPF { get; set; }
         public string? Experiencia { get; set; }
         public decimal? ValorHora { get; set; }
@@ -10,7 +10,7 @@
         public string? Especializacoes { get; set; }
 
         // Chave estrangeira para o User
-        public string? UsuarioId { get; set; }
+        public String? UsuarioId { get; set; }
         public User? Usuario { get; set; }
 
         // Relacionamento de um-para-muitos com ServicoCuidador

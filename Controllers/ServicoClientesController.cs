@@ -32,8 +32,8 @@ namespace AplicacaoCareWithLove.Controllers
                     DataInicio = s.DataInicio,
                     DataTermino = s.DataTermino,
                     Local = s.Local,
-                    DependenteId = s.DependenteId, // Apenas a chave estrangeira (ID)
-                    DependenteNome = s.Dependente?.DependenteNome // Caso queira incluir algum dado da entidade Dependente
+                    DependenteId = s.DependenteId, 
+                    DependenteNome = s.Dependente?.DependenteNome 
                 });
             return View(servicos);
         }
@@ -81,7 +81,7 @@ namespace AplicacaoCareWithLove.Controllers
             {
                 var servicoCliente = new ServicoCliente
                 {
-                    ServicoClienteId = Guid.NewGuid(),
+                    ServicoClienteId = Guid.NewGuid().ToString(),
                     Descricao = servicoClienteInputModel.Descricao,
                     DataInicio = servicoClienteInputModel.DataInicio,
                     DataTermino = servicoClienteInputModel.DataTermino,
@@ -131,7 +131,7 @@ namespace AplicacaoCareWithLove.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, ServicoClienteInputModel servicoClienteInputModel)
         {
-            if (id != servicoClienteInputModel.ServicoClienteId)
+            if (id.ToString() != servicoClienteInputModel.ServicoClienteId)
             {
                 return NotFound();
             }

@@ -5,7 +5,7 @@ namespace CareWithLoveApp.Models.InputModels
     public class UsuarioInputModel
     {
         [Required(ErrorMessage = "O ID do usuário é obrigatório.")]
-        public Guid UsuarioId { get; set; }
+        public String UsuarioId { get; set; }
 
         [Required(ErrorMessage = "O nome do usuário é obrigatório.")]
         [StringLength(100, ErrorMessage = "O nome deve ter no máximo 100 caracteres.")]

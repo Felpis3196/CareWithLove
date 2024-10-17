@@ -74,7 +74,7 @@ namespace CareWithLoveApp.Controllers
             {
                 var servicoCuidador = new ServicoCuidador
                 {
-                    ServicoCuidadorId = Guid.NewGuid(),
+                    ServicoCuidadorId = Guid.NewGuid().ToString(),
                     Descricao = inputModel.Descricao,
                     DataInicio = inputModel.DataInicio,
                     DataTermino = inputModel.DataTermino,

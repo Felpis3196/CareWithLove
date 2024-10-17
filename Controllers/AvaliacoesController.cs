@@ -34,7 +34,7 @@ namespace CareWithLoveApp.Controllers
                     AvaliacaoId = a.AvaliacaoId,
                     Nota = a.Nota,
                     Review = a.Review,
-                    UsuarioId = a.UsuarioId,
+                    UsuarioId = User.FindFirstValue(ClaimTypes.NameIdentifier),
                     Usuario = a.Usuario
                 });
 
@@ -55,7 +55,7 @@ namespace CareWithLoveApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(AvaliacaoInputModel avaliacaoInputModel)
         {
-            if (ModelState.IsValid)
+            if (avaliacaoInputModel != null)
             {
                 var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 var usuario = await _userManager.FindByIdAsync(userIdString);
@@ -74,10 +74,10 @@ namespace CareWithLoveApp.Controllers
 
                 var avaliacao = new Avaliacao
                 {
-                    AvaliacaoId = Guid.NewGuid(),
+                    AvaliacaoId = Guid.NewGuid().ToString(),
                     Nota = avaliacaoInputModel.Nota,
                     Review = avaliacaoInputModel.Review,
-                    UsuarioId = usuarioIdGuid, 
+                    UsuarioId = usuarioIdGuid.ToString(), 
                     Usuario = usuario
                 };
 
@@ -85,16 +85,8 @@ namespace CareWithLoveApp.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            // Preenche o UsuarioId com o Id do usuário logado na falha da validação
-            if (Guid.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out Guid loggedUserId))
-            {
-                avaliacaoInputModel.UsuarioId = loggedUserId;
-            }
-
             return View(avaliacaoInputModel);
         }
-
-
 
         // GET: Avaliacoes/Delete/5
         public async Task<IActionResult> Delete(Guid id)

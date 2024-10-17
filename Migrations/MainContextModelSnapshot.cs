@@ -24,9 +24,8 @@ namespace CareWithLoveApp.Migrations
 
             modelBuilder.Entity("CareWithLoveApp.Models.Entities.Avaliacao", b =>
                 {
-                    b.Property<Guid>("AvaliacaoId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("AvaliacaoId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("Nota")
                         .HasColumnType("int");
@@ -35,24 +34,20 @@ namespace CareWithLoveApp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("UsuarioId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("UsuarioId1")
+                    b.Property<string>("UsuarioId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("AvaliacaoId");
 
-                    b.HasIndex("UsuarioId1");
+                    b.HasIndex("UsuarioId");
 
                     b.ToTable("Avaliacao", (string)null);
                 });
 
             modelBuilder.Entity("CareWithLoveApp.Models.Entities.Cuidador", b =>
                 {
-                    b.Property<Guid>("CuidadorId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("CuidadorId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CPF")
                         .HasColumnType("nvarchar(max)");
@@ -83,9 +78,8 @@ namespace CareWithLoveApp.Migrations
 
             modelBuilder.Entity("CareWithLoveApp.Models.Entities.Dependente", b =>
                 {
-                    b.Property<Guid>("DependenteId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("DependenteId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Cuidados")
                         .HasColumnType("nvarchar(max)");
@@ -105,24 +99,20 @@ namespace CareWithLoveApp.Migrations
                     b.Property<string>("TelefoneEmergencia")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("UsuarioId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("UsuarioId1")
+                    b.Property<string>("UsuarioId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("DependenteId");
 
-                    b.HasIndex("UsuarioId1");
+                    b.HasIndex("UsuarioId");
 
                     b.ToTable("Dependente", (string)null);
                 });
 
             modelBuilder.Entity("CareWithLoveApp.Models.Entities.ServicoCliente", b =>
                 {
-                    b.Property<Guid>("ServicoClienteId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("ServicoClienteId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("DataInicio")
                         .HasColumnType("datetime2");
@@ -130,8 +120,8 @@ namespace CareWithLoveApp.Migrations
                     b.Property<DateTime>("DataTermino")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("DependenteId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("DependenteId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Descricao")
                         .IsRequired()
@@ -150,12 +140,11 @@ namespace CareWithLoveApp.Migrations
 
             modelBuilder.Entity("CareWithLoveApp.Models.Entities.ServicoCuidador", b =>
                 {
-                    b.Property<Guid>("ServicoCuidadorId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("ServicoCuidadorId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<Guid?>("CuidadorId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("CuidadorId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("DataInicio")
                         .HasColumnType("datetime2");
@@ -252,7 +241,7 @@ namespace CareWithLoveApp.Migrations
                 {
                     b.HasOne("CareWithLoveApp.Models.Entities.User", "Usuario")
                         .WithMany("Avaliacoes")
-                        .HasForeignKey("UsuarioId1");
+                        .HasForeignKey("UsuarioId");
 
                     b.Navigation("Usuario");
                 });
@@ -270,7 +259,7 @@ namespace CareWithLoveApp.Migrations
                 {
                     b.HasOne("CareWithLoveApp.Models.Entities.User", "Usuario")
                         .WithMany("Dependentes")
-                        .HasForeignKey("UsuarioId1");
+                        .HasForeignKey("UsuarioId");
 
                     b.Navigation("Usuario");
                 });

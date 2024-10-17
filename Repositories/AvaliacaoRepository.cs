@@ -16,7 +16,7 @@ namespace CareWithLoveApp.Repositories
         {
             return _context.Avaliacao
                 .Include(a => a.Usuario)
-                .FirstOrDefault(a => a.AvaliacaoId == id);
+                .FirstOrDefault(a => a.AvaliacaoId == id.ToString());
         }
         public void Add(Avaliacao avaliacao)
         {

@@ -23,7 +23,7 @@ namespace CareWithLoveApp.Repositories
             return _context.Dependentes
                 .Include(d => d.ServicosClientes)
                 .Include(d => d.Usuario)
-                .FirstOrDefault(d => d.DependenteId == id);
+                .FirstOrDefault(d => d.DependenteId == id.ToString());
         }
 
         public void Delete(Guid id)

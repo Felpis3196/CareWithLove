@@ -7,7 +7,7 @@ namespace CareWithLoveApp.Models.ViewModels
     public class DependenteViewModel
     {
         [Display(Name = "Código do Dependente")]
-        public Guid DependenteId { get; set; }
+        public String DependenteId { get; set; }
 
         [Display(Name = "Nome do Dependente")]
         public string DependenteNome { get; set; }
@@ -29,7 +29,7 @@ namespace CareWithLoveApp.Models.ViewModels
 
         // Relacionamento com Usuario
         [Display(Name = "Código do Usuário")]
-        public Guid? UsuarioId { get; set; }
+        public String? UsuarioId { get; set; }
 
         [Display(Name = "Nome do Usuário")]
         public string UsuarioNome { get; set; }
