@@ -30,6 +30,9 @@ namespace CareWithLoveApp.Controllers
         // GET: Cuidadores
         public async Task<IActionResult> Index()
         {
+            var usuarioLogadoId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var usuarioLogado = await _userManager.FindByIdAsync(usuarioLogadoId);
+
             var cuidadores = _cuidadorService.ObterTodosCuidadores()
                 .Select(c => new CuidadorViewModel
                 {
@@ -39,11 +42,12 @@ namespace CareWithLoveApp.Controllers
                     ValorHora = c.ValorHora,
                     Disponibilidade = c.Disponibilidade,
                     Especializacoes = c.Especializacoes,
-                    UsuarioId = c.UsuarioId,
-                    UsuarioNome = c.Usuario?.UsuarioNome
+                    CuidadorNome = usuarioLogado?.UsuarioNome 
                 });
+
             return View(cuidadores);
         }
+
 
         // GET: Cuidadores/Details/5
         public async Task<IActionResult> Details(Guid id)
@@ -67,8 +71,7 @@ namespace CareWithLoveApp.Controllers
                 ValorHora = cuidador.ValorHora,
                 Disponibilidade = cuidador.Disponibilidade,
                 Especializacoes = cuidador.Especializacoes,
-                UsuarioId = cuidador.UsuarioId,
-                UsuarioNome = cuidador.Usuario?.UsuarioNome
+                CuidadorNome = cuidador.Usuario.UsuarioNome
             };
 
             return View(cuidadorViewModel);
@@ -98,7 +101,7 @@ namespace CareWithLoveApp.Controllers
                     ValorHora = cuidadorInputModel.ValorHora,
                     Disponibilidade = cuidadorInputModel.Disponibilidade,
                     Especializacoes = cuidadorInputModel.Especializacoes,
-                    UsuarioId = User.FindFirstValue(ClaimTypes.NameIdentifier)
+                    UsuarioId = User.FindFirstValue(ClaimTypes.NameIdentifier),
                 };
 
                 _cuidadorService.CriarCuidador(cuidador);
@@ -131,7 +134,8 @@ namespace CareWithLoveApp.Controllers
                 ValorHora = cuidador.ValorHora,
                 Disponibilidade = cuidador.Disponibilidade,
                 Especializacoes = cuidador.Especializacoes,
-                UsuarioId = cuidador.UsuarioId
+                UsuarioId = cuidador.UsuarioId,
+                Usuario = cuidador.Usuario
             };
 
             var usuarios = await _userManager.Users.ToListAsync();
@@ -159,7 +163,8 @@ namespace CareWithLoveApp.Controllers
                     ValorHora = cuidadorInputModel.ValorHora,
                     Disponibilidade = cuidadorInputModel.Disponibilidade,
                     Especializacoes = cuidadorInputModel.Especializacoes,
-                    UsuarioId = cuidadorInputModel.UsuarioId
+                    UsuarioId = cuidadorInputModel.UsuarioId,
+                    Usuario = cuidadorInputModel.Usuario
                 };
 
                 _cuidadorService.AtualizarCuidador(cuidador);
@@ -193,8 +198,7 @@ namespace CareWithLoveApp.Controllers
                 ValorHora = cuidador.ValorHora,
                 Disponibilidade = cuidador.Disponibilidade,
                 Especializacoes = cuidador.Especializacoes,
-                UsuarioId = cuidador.UsuarioId,
-                UsuarioNome = cuidador.Usuario?.UsuarioNome
+                CuidadorNome = cuidador.Usuario?.UsuarioNome
             };
 
             return View(cuidadorViewModel);

@@ -35,7 +35,7 @@ namespace CareWithLoveApp.Controllers
                     Nota = a.Nota,
                     Review = a.Review,
                     UsuarioId = User.FindFirstValue(ClaimTypes.NameIdentifier),
-                    Usuario = a.Usuario
+                    UsuarioNome = a.Usuario.UserName
                 });
 
             return View(avaliacoes);
@@ -77,8 +77,7 @@ namespace CareWithLoveApp.Controllers
                     AvaliacaoId = Guid.NewGuid().ToString(),
                     Nota = avaliacaoInputModel.Nota,
                     Review = avaliacaoInputModel.Review,
-                    UsuarioId = usuarioIdGuid.ToString(), 
-                    Usuario = usuario
+                    UsuarioId = usuarioIdGuid.ToString()
                 };
 
                 _avaliacaoService.CriarAvaliacao(avaliacao);

@@ -40,7 +40,6 @@ namespace AplicacaoCareWithLove.Controllers
                     Insulina = d.Insulina,
                     TelefoneEmergencia = d.TelefoneEmergencia,
                     Cuidados = d.Cuidados,
-                    UsuarioId = User.FindFirstValue(ClaimTypes.NameIdentifier)
                 });
             return View(dependentes);
         }
@@ -68,7 +67,6 @@ namespace AplicacaoCareWithLove.Controllers
                 Insulina = dependente.Insulina,
                 TelefoneEmergencia = dependente.TelefoneEmergencia,
                 Cuidados = dependente.Cuidados,
-                UsuarioId = dependente.UsuarioId
             };
 
             return View(dependenteViewModel);
@@ -87,7 +85,7 @@ namespace AplicacaoCareWithLove.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(DependenteInputModel dependenteInputModel)
         {
-            if (ModelState.IsValid)
+            if (dependenteInputModel != null)
             {
                 var dependente = new Dependente
                 {
@@ -195,7 +193,6 @@ namespace AplicacaoCareWithLove.Controllers
                 Insulina = dependente.Insulina,
                 TelefoneEmergencia = dependente.TelefoneEmergencia,
                 Cuidados = dependente.Cuidados,
-                UsuarioId = dependente.UsuarioId
             };
 
             return View(dependenteViewModel);

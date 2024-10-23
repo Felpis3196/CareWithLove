@@ -5,16 +5,24 @@ using CareWithLoveApp.Services;
 using CareWithLoveApp.Models.InputModel;
 using CareWithLoveApp.Models.ViewModels;
 using CareWithLoveApp.Models.Entities;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
+using CareWithLoveApp.Models.InputModels;
 
 namespace CareWithLoveApp.Controllers
 {
     public class ServicoCuidadoresController : Controller
     {
         private readonly IServicoCuidadorService _servicoCuidadorService;
+        private readonly ICuidadorService _cuidadorService;
+        private readonly UserManager<User> _userManager;
 
-        public ServicoCuidadoresController(IServicoCuidadorService servicoCuidadorService)
+        public ServicoCuidadoresController(IServicoCuidadorService servicoCuidadorService, ICuidadorService cuidadorService, UserManager<User> userManager)
         {
             _servicoCuidadorService = servicoCuidadorService;
+            _cuidadorService = cuidadorService;
+            _userManager = userManager;
         }
 
         // GET: ServicoCuidadores
@@ -60,17 +68,27 @@ namespace CareWithLoveApp.Controllers
         }
 
         // GET: ServicoCuidadores/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            var usuarioLogadoId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var usuarioLogado = await _userManager.FindByIdAsync(usuarioLogadoId);
+            var cuidadores = _cuidadorService.ObterTodosCuidadores()
+                             .Select(c => new SelectListItem
+                             {
+                                 Value = c.CuidadorId.ToString(),
+                                 Text = usuarioLogado?.UsuarioNome
+                             }).ToList();
+            ViewBag.CuidadorId = new SelectList(cuidadores, "Value", "Text");
             return View();
         }
 
+            
         // POST: ServicoCuidadores/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(ServicoCuidadorInputModel inputModel)
         {
-            if (ModelState.IsValid)
+            if (inputModel != null && inputModel.DataTermino > inputModel.DataInicio)
             {
                 var servicoCuidador = new ServicoCuidador
                 {

@@ -205,7 +205,7 @@ namespace CareWithLoveApp.Migrations.ApplicationDb
                     AvaliacaoId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Nota = table.Column<int>(type: "int", nullable: false),
                     Review = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UsuarioId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    UsuarioId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -215,7 +215,8 @@ namespace CareWithLoveApp.Migrations.ApplicationDb
                         column: x => x.UsuarioId,
                         principalSchema: "Identity",
                         principalTable: "User",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(

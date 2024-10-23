@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CareWithLoveApp.Migrations.ApplicationDb
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241017174206_identityMigration")]
+    [Migration("20241020223901_identityMigration")]
     partial class identityMigration
     {
         /// <inheritdoc />
@@ -39,6 +39,7 @@ namespace CareWithLoveApp.Migrations.ApplicationDb
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UsuarioId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("AvaliacaoId");
@@ -400,7 +401,9 @@ namespace CareWithLoveApp.Migrations.ApplicationDb
                 {
                     b.HasOne("CareWithLoveApp.Models.Entities.User", "Usuario")
                         .WithMany("Avaliacoes")
-                        .HasForeignKey("UsuarioId");
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Usuario");
                 });

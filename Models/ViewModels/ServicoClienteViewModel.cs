@@ -20,10 +20,6 @@ namespace CareWithLoveApp.Models.ViewModels
         [Display(Name = "Local do Serviço")]
         public string Local { get; set; }
 
-        // Relacionamento com Dependente
-        [Display(Name = "Código do Dependente")]
-        public String? DependenteId { get; set; }
-
         [Display(Name = "Nome do Dependente")]
         public string DependenteNome { get; set; }
     }

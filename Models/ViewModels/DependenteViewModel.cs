@@ -27,10 +27,6 @@ namespace CareWithLoveApp.Models.ViewModels
         [Display(Name = "Cuidados Necessários")]
         public string Cuidados { get; set; }
 
-        // Relacionamento com Usuario
-        [Display(Name = "Código do Usuário")]
-        public String? UsuarioId { get; set; }
-
         [Display(Name = "Nome do Usuário")]
         public string UsuarioNome { get; set; }
 
