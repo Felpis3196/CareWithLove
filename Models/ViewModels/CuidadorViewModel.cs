@@ -1,4 +1,5 @@
 ﻿using CareWithLoveApp.Models.ViewModels;
+using CareWithLoveApp.Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -31,5 +32,7 @@ namespace CareWithLoveApp.Models.ViewModel
         // Lista de serviços oferecidos (opcional, dependendo do contexto)
         [Display(Name = "Serviços Oferecidos")]
         public List<ServicoCuidadorViewModel>? ServicosCuidador { get; set; }
+        public string? UsuarioId { get; set; }
+        public User Usuario { get; set; }
     }
 }

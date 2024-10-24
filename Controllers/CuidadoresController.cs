@@ -42,7 +42,9 @@ namespace CareWithLoveApp.Controllers
                     ValorHora = c.ValorHora,
                     Disponibilidade = c.Disponibilidade,
                     Especializacoes = c.Especializacoes,
-                    CuidadorNome = usuarioLogado?.UsuarioNome 
+                    CuidadorNome = usuarioLogado?.UsuarioNome,
+                    UsuarioId = usuarioLogadoId,
+                    Usuario = usuarioLogado
                 });
 
             return View(cuidadores);
