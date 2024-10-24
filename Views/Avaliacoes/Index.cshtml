@@ -19,7 +19,7 @@
                 @Html.DisplayNameFor(model => model.Review)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Usuario)
+                @Html.DisplayNameFor(model => model.UsuarioNome)
             </th>
             <th></th>
         </tr>
@@ -34,7 +34,7 @@
                 @Html.DisplayFor(modelItem => item.Review)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Usuario.UsuarioId)
+                @Html.DisplayFor(modelItem => item.UsuarioNome)
             </td>
             <td>
                 <a asp-action="Delete" asp-route-id="@item.AvaliacaoId">Delete</a>

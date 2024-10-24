@@ -11,17 +11,26 @@ namespace CareWithLoveApp.Data
         public DbSet<Dependente> Dependentes { get; set;}
         public DbSet<ServicoCliente> ServicoClientes { get; set;}
         public DbSet<ServicoCuidador> ServicoCuidadores { get; set;}
-        public DbSet<Usuario> Usuarios { get;set;}
+        public DbSet<User> Usuarios { get;set;}
         public DbSet<Avaliacao> Avaliacao { get; set;}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Cuidador>().ToTable("tbCuidador");
-            modelBuilder.Entity<Dependente>().ToTable("tbDependente");
-            modelBuilder.Entity<ServicoCliente>().ToTable("tbServicoClientes");
-            modelBuilder.Entity<ServicoCuidador>().ToTable("tbServicoCuidador");
-            modelBuilder.Entity<Usuario>().ToTable("tbUsuario");
-            modelBuilder.Entity<Avaliacao>().ToTable("tbAvaliacao");
+            modelBuilder.Entity<Cuidador>().ToTable("Cuidador");
+            modelBuilder.Entity<Dependente>().ToTable("Dependente");
+            modelBuilder.Entity<ServicoCliente>().ToTable("ServicoClientes");
+            modelBuilder.Entity<ServicoCuidador>().ToTable("ServicoCuidador");
+            modelBuilder.Entity<User>().ToTable("Usuario");
+            modelBuilder.Entity<Avaliacao>().ToTable("Avaliacao");
+
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.Cuidador)
+                .WithOne(c => c.Usuario)
+                .HasForeignKey<Cuidador>(c => c.UsuarioId)
+                .IsRequired(false);
         }
+
+
     }
 }

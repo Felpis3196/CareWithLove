@@ -3,23 +3,28 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using CareWithLoveApp.Services;
+using Microsoft.AspNetCore.Identity; // Importante para o UserManager
 using CareWithLoveApp.Models.InputModels;
 using CareWithLoveApp.Models.OutputModels;
 using CareWithLoveApp.Models.Entities;
 using CareWithLoveApp.Models.ViewModels;
+using CareWithLoveApp.Services;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AplicacaoCareWithLove.Controllers
 {
+    //[Authorize(Roles = "Responsavel")]
     public class DependentesController : Controller
     {
         private readonly IDependenteService _dependenteService;
-        private readonly IUsuarioService _usuarioService;
+        private readonly UserManager<User> _userManager;
 
-        public DependentesController(IDependenteService dependenteService, IUsuarioService usuarioService)
+        public DependentesController(IDependenteService dependenteService, UserManager<User> userManager)
         {
             _dependenteService = dependenteService;
-            _usuarioService = usuarioService;
+            _userManager = userManager; 
         }
 
         // GET: Dependentes
@@ -35,7 +40,6 @@ namespace AplicacaoCareWithLove.Controllers
                     Insulina = d.Insulina,
                     TelefoneEmergencia = d.TelefoneEmergencia,
                     Cuidados = d.Cuidados,
-                    UsuarioId = d.UsuarioId
                 });
             return View(dependentes);
         }
@@ -63,16 +67,16 @@ namespace AplicacaoCareWithLove.Controllers
                 Insulina = dependente.Insulina,
                 TelefoneEmergencia = dependente.TelefoneEmergencia,
                 Cuidados = dependente.Cuidados,
-                UsuarioId = dependente.UsuarioId
             };
 
             return View(dependenteViewModel);
         }
 
         // GET: Dependentes/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["UsuarioId"] = new SelectList(_usuarioService.ObterTodosUsuarios(), "UsuarioId", "UsuarioNome");
+            var usuarios = await _userManager.Users.ToListAsync(); 
+            ViewData["UsuarioId"] = new SelectList(usuarios, "Id", "UserName"); 
             return View();
         }
 
@@ -81,25 +85,41 @@ namespace AplicacaoCareWithLove.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(DependenteInputModel dependenteInputModel)
         {
-            if (ModelState.IsValid)
+            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var usuario = await _userManager.FindByIdAsync(userIdString);
+
+            if (usuario == null)
+            {
+                ModelState.AddModelError("UsuarioId", "Usuário não encontrado.");
+                return View(dependenteInputModel);
+            }
+
+            if (!Guid.TryParse(usuario.Id, out Guid usuarioIdGuid))
+            {
+                ModelState.AddModelError("UsuarioId", "ID do usuário inválido.");
+                return View(dependenteInputModel);
+            }
+
+            if (dependenteInputModel != null)
             {
                 var dependente = new Dependente
                 {
-                    DependenteId = Guid.NewGuid(),
+                    DependenteId = Guid.NewGuid().ToString(),
                     DependenteNome = dependenteInputModel.DependenteNome,
                     DependenteIdade = dependenteInputModel.DependenteIdade,
                     DependenteEndereco = dependenteInputModel.DependenteEndereco,
                     Insulina = dependenteInputModel.Insulina,
                     TelefoneEmergencia = dependenteInputModel.TelefoneEmergencia,
                     Cuidados = dependenteInputModel.Cuidados,
-                    UsuarioId = dependenteInputModel.UsuarioId
+                    UsuarioId = usuarioIdGuid.ToString()
                 };
 
                 _dependenteService.AdicionarDependente(dependente);
                 return RedirectToAction(nameof(Index));
             }
-            // Volta para a View com dependenteInputModel caso o ModelState não seja válido
-            ViewData["UsuarioId"] = new SelectList(_usuarioService.ObterTodosUsuarios(), "UsuarioId", "UsuarioNome", dependenteInputModel.UsuarioId);
+
+            var usuarios = await _userManager.Users.ToListAsync();
+            ViewData["UsuarioId"] = new SelectList(usuarios, "Id", "UserName", dependenteInputModel.UsuarioId);
             return View(dependenteInputModel);
         }
 
@@ -129,7 +149,8 @@ namespace AplicacaoCareWithLove.Controllers
                 UsuarioId = dependente.UsuarioId
             };
 
-            ViewData["UsuarioId"] = new SelectList(_usuarioService.ObterTodosUsuarios(), "UsuarioId", "UsuarioNome", dependente.UsuarioId);
+            var usuarios = await _userManager.Users.ToListAsync(); 
+            ViewData["UsuarioId"] = new SelectList(usuarios, "Id", "UserName", dependente.UsuarioId);
             return View(dependenteInputModel);
         }
 
@@ -138,7 +159,7 @@ namespace AplicacaoCareWithLove.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, DependenteInputModel dependenteInputModel)
         {
-            if (id != dependenteInputModel.DependenteId)
+            if (id.ToString() != dependenteInputModel.DependenteId)
             {
                 return NotFound();
             }
@@ -160,7 +181,7 @@ namespace AplicacaoCareWithLove.Controllers
                 _dependenteService.AtualizarDependente(dependente);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UsuarioId"] = new SelectList(_usuarioService.ObterTodosUsuarios(), "UsuarioId", "UsuarioNome", dependenteInputModel.UsuarioId);
+            dependenteInputModel.UsuarioId = (User.FindFirstValue(ClaimTypes.NameIdentifier));
             return View(dependenteInputModel);
         }
 
@@ -187,7 +208,6 @@ namespace AplicacaoCareWithLove.Controllers
                 Insulina = dependente.Insulina,
                 TelefoneEmergencia = dependente.TelefoneEmergencia,
                 Cuidados = dependente.Cuidados,
-                UsuarioId = dependente.UsuarioId
             };
 
             return View(dependenteViewModel);

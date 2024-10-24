@@ -6,7 +6,7 @@ namespace CareWithLoveApp.Models.InputModels
     public class CuidadorInputModel
     {
         [Required(ErrorMessage = "O campo 'CuidadorId' é obrigatório.")]
-        public Guid CuidadorId { get; set; }
+        public String CuidadorId { get; set; }
 
         [Required(ErrorMessage = "O CPF é obrigatório.")]
         [StringLength(11, ErrorMessage = "O CPF deve ter exatamente 11 caracteres.")]
@@ -35,9 +35,9 @@ namespace CareWithLoveApp.Models.InputModels
         // Relacionamento um-para-um com Usuario
         [Required(ErrorMessage = "O usuário é obrigatório.")]
         [Display(Name = "Usuário")]
-        public Guid? UsuarioId { get; set; }
+        public String? UsuarioId { get; set; }
 
-        public Usuario? Usuario { get; set; }
+        public User? Usuario { get; set; }
 
         // Relacionamento de um-para-muitos com ServicoCuidador
         public ICollection<ServicoCuidador>? ServicosCuidador { get; set; }

@@ -5,7 +5,7 @@ namespace CareWithLoveApp.Models.ViewModels
     public class ServicoCuidadorViewModel
     {
         [Display(Name = "Código do Serviço do Cuidador")]
-        public Guid ServicoCuidadorId { get; set; }
+        public String ServicoCuidadorId { get; set; }
         [Display(Name = "Descrição")]
         public string Descricao { get; set; }
         [Display(Name = "Data de Inicio")]
@@ -17,7 +17,7 @@ namespace CareWithLoveApp.Models.ViewModels
 
         // Informações do cuidador (opcional)
         [Display(Name = "Código do Cuidador")]
-        public Guid? CuidadorId { get; set; }
+        public String? CuidadorId { get; set; }
         [Display(Name = "Nome do Cuidador")]
         public string? CuidadorNome { get; set; } 
     }

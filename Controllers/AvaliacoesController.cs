@@ -1,46 +1,55 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using CareWithLoveApp.Models.InputModels;
 using CareWithLoveApp.Models.ViewModels;
 using CareWithLoveApp.Services;
 using CareWithLoveApp.Models.Entities;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CareWithLoveApp.Controllers
 {
     public class AvaliacoesController : Controller
     {
         private readonly IAvaliacaoService _avaliacaoService;
-        private readonly IUsuarioService _usuarioService;
+        private readonly UserManager<User> _userManager;
 
-        public AvaliacoesController(IAvaliacaoService avaliacaoService, IUsuarioService usuarioService)
+        public AvaliacoesController(IAvaliacaoService avaliacaoService, UserManager<User> userManager)
         {
             _avaliacaoService = avaliacaoService;
-            _usuarioService = usuarioService;
+            _userManager = userManager;
         }
 
         // GET: Avaliacoes
         public async Task<IActionResult> Index()
         {
+            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var usuario = await _userManager.FindByIdAsync(userIdString);
+
             var avaliacoes = _avaliacaoService.ObterTodasAvaliacoes()
                 .Select(a => new AvaliacaoViewModel
                 {
                     AvaliacaoId = a.AvaliacaoId,
                     Nota = a.Nota,
                     Review = a.Review,
-                    UsuarioId = a.UsuarioId,
-                    Usuario = a.Usuario // Carregando o usuário relacionado
+                    UsuarioId = User.FindFirstValue(ClaimTypes.NameIdentifier),
+                    UsuarioNome = usuario.UsuarioNome
                 });
 
             return View(avaliacoes);
         }
 
         // GET: Avaliacoes/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["UsuarioId"] = new SelectList(_usuarioService.ObterTodosUsuarios(), "UsuarioId", "UsuarioNome");
+            // Obtendo todos os usuários para preencher o dropdown
+            var usuarios = await _userManager.Users.ToListAsync();
+            ViewData["UsuarioId"] = new SelectList(usuarios, "Id", "UsuarioNome");
             return View();
         }
 
@@ -49,22 +58,35 @@ namespace CareWithLoveApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(AvaliacaoInputModel avaliacaoInputModel)
         {
-            if (ModelState.IsValid)
+            if (avaliacaoInputModel != null)
             {
+                var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var usuario = await _userManager.FindByIdAsync(userIdString);
+
+                if (usuario == null)
+                {
+                    ModelState.AddModelError("UsuarioId", "Usuário não encontrado.");
+                    return View(avaliacaoInputModel);
+                }
+
+                if (!Guid.TryParse(usuario.Id, out Guid usuarioIdGuid))
+                {
+                    ModelState.AddModelError("UsuarioId", "ID do usuário inválido.");
+                    return View(avaliacaoInputModel);
+                }
+
                 var avaliacao = new Avaliacao
                 {
-                    AvaliacaoId = Guid.NewGuid(),
+                    AvaliacaoId = Guid.NewGuid().ToString(),
                     Nota = avaliacaoInputModel.Nota,
                     Review = avaliacaoInputModel.Review,
-                    UsuarioId = avaliacaoInputModel.UsuarioId,
-                    Usuario = _usuarioService.ObterUsuarioPorId(avaliacaoInputModel.UsuarioId)          
+                    UsuarioId = usuarioIdGuid.ToString(),
                 };
 
                 _avaliacaoService.CriarAvaliacao(avaliacao);
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewData["UsuarioId"] = new SelectList(_usuarioService.ObterTodosUsuarios(), "UsuarioId", "UsuarioNome", avaliacaoInputModel.UsuarioId);
             return View(avaliacaoInputModel);
         }
 

@@ -1,26 +1,38 @@
-﻿using CareWithLoveApp.Services;
-using CareWithLoveApp.Models.InputModels;
-using CareWithLoveApp.Models.ViewModel;
-using CareWithLoveApp.Models.Entities;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using CareWithLoveApp.Models.InputModels;
+using CareWithLoveApp.Models.ViewModels;
+using CareWithLoveApp.Services;
+using CareWithLoveApp.Models.Entities;
+using CareWithLoveApp.Models.ViewModel;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CareWithLoveApp.Controllers
 {
+    //[Authorize(Roles = "Cuidador")]
     public class CuidadoresController : Controller
     {
         private readonly ICuidadorService _cuidadorService;
-        private readonly IUsuarioService _usuarioService;
+        private readonly UserManager<User> _userManager;
 
-        public CuidadoresController(ICuidadorService cuidadorService, IUsuarioService usuarioService)
+        public CuidadoresController(ICuidadorService cuidadorService, UserManager<User> userManager)
         {
             _cuidadorService = cuidadorService;
-            _usuarioService = usuarioService;
+            _userManager = userManager;
         }
 
         // GET: Cuidadores
         public async Task<IActionResult> Index()
         {
+            var usuarioLogadoId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var usuarioLogado = await _userManager.FindByIdAsync(usuarioLogadoId);
+
             var cuidadores = _cuidadorService.ObterTodosCuidadores()
                 .Select(c => new CuidadorViewModel
                 {
@@ -30,11 +42,12 @@ namespace CareWithLoveApp.Controllers
                     ValorHora = c.ValorHora,
                     Disponibilidade = c.Disponibilidade,
                     Especializacoes = c.Especializacoes,
-                    UsuarioId = c.UsuarioId,
-                    UsuarioNome = c.Usuario?.UsuarioNome
+                    CuidadorNome = usuarioLogado?.UsuarioNome 
                 });
+
             return View(cuidadores);
         }
+
 
         // GET: Cuidadores/Details/5
         public async Task<IActionResult> Details(Guid id)
@@ -58,19 +71,18 @@ namespace CareWithLoveApp.Controllers
                 ValorHora = cuidador.ValorHora,
                 Disponibilidade = cuidador.Disponibilidade,
                 Especializacoes = cuidador.Especializacoes,
-                UsuarioId = cuidador.UsuarioId,
-                UsuarioNome = cuidador.Usuario?.UsuarioNome
+                CuidadorNome = cuidador.Usuario.UsuarioNome
             };
 
             return View(cuidadorViewModel);
         }
 
         // GET: Cuidadores/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             // Carregar a lista de usuários no ViewData para popular o SelectList
-            var usuarios = _usuarioService.ObterTodosUsuarios();
-            ViewData["UsuarioId"] = new SelectList(usuarios, "UsuarioId", "UsuarioNome");
+            var usuarios = await _userManager.Users.ToListAsync();
+            ViewData["UsuarioId"] = new SelectList(usuarios, "Id", "UsuarioNome");
             return View();
         }
 
@@ -79,24 +91,39 @@ namespace CareWithLoveApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CuidadorInputModel cuidadorInputModel)
         {
-            if (ModelState.IsValid)
+            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var usuario = await _userManager.FindByIdAsync(userIdString);
+
+            if (usuario == null)
+            {
+                ModelState.AddModelError("UsuarioId", "Usuário não encontrado.");
+                return View(cuidadorInputModel);
+            }
+
+            if (!Guid.TryParse(usuario.Id, out Guid usuarioIdGuid))
+            {
+                ModelState.AddModelError("UsuarioId", "ID do usuário inválido.");
+                return View(cuidadorInputModel);
+            }
+
+            if (cuidadorInputModel != null)
             {
                 var cuidador = new Cuidador
                 {
-                    CuidadorId = Guid.NewGuid(),
+                    CuidadorId = Guid.NewGuid().ToString(),
                     CPF = cuidadorInputModel.CPF,
                     Experiencia = cuidadorInputModel.Experiencia,
                     ValorHora = cuidadorInputModel.ValorHora,
                     Disponibilidade = cuidadorInputModel.Disponibilidade,
                     Especializacoes = cuidadorInputModel.Especializacoes,
-                    UsuarioId = cuidadorInputModel.UsuarioId
+                    UsuarioId = usuarioIdGuid.ToString()
                 };
 
                 _cuidadorService.CriarCuidador(cuidador);
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewData["UsuarioId"] = new SelectList(_usuarioService.ObterTodosUsuarios(), "UsuarioId", "UsuarioNome", cuidadorInputModel.UsuarioId);
+            cuidadorInputModel.UsuarioId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             return View(cuidadorInputModel);
         }
 
@@ -122,10 +149,12 @@ namespace CareWithLoveApp.Controllers
                 ValorHora = cuidador.ValorHora,
                 Disponibilidade = cuidador.Disponibilidade,
                 Especializacoes = cuidador.Especializacoes,
-                UsuarioId = cuidador.UsuarioId
+                UsuarioId = cuidador.UsuarioId,
+                Usuario = cuidador.Usuario
             };
 
-            ViewData["UsuarioId"] = new SelectList(_usuarioService.ObterTodosUsuarios(), "UsuarioId", "UsuarioNome", cuidador.UsuarioId);
+            var usuarios = await _userManager.Users.ToListAsync();
+            ViewData["UsuarioId"] = new SelectList(usuarios, "Id", "UsuarioNome", cuidador.UsuarioId);
             return View(cuidadorInputModel);
         }
 
@@ -134,7 +163,7 @@ namespace CareWithLoveApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, CuidadorInputModel cuidadorInputModel)
         {
-            if (id != cuidadorInputModel.CuidadorId)
+            if (id.ToString() != cuidadorInputModel.CuidadorId)
             {
                 return NotFound();
             }
@@ -149,13 +178,16 @@ namespace CareWithLoveApp.Controllers
                     ValorHora = cuidadorInputModel.ValorHora,
                     Disponibilidade = cuidadorInputModel.Disponibilidade,
                     Especializacoes = cuidadorInputModel.Especializacoes,
-                    UsuarioId = cuidadorInputModel.UsuarioId
+                    UsuarioId = cuidadorInputModel.UsuarioId,
+                    Usuario = cuidadorInputModel.Usuario
                 };
 
                 _cuidadorService.AtualizarCuidador(cuidador);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UsuarioId"] = new SelectList(_usuarioService.ObterTodosUsuarios(), "UsuarioId", "UsuarioNome", cuidadorInputModel.UsuarioId);
+
+            var usuarios = await _userManager.Users.ToListAsync();
+            ViewData["UsuarioId"] = new SelectList(usuarios, "Id", "UsuarioNome", cuidadorInputModel.UsuarioId);
             return View(cuidadorInputModel);
         }
 
@@ -181,8 +213,7 @@ namespace CareWithLoveApp.Controllers
                 ValorHora = cuidador.ValorHora,
                 Disponibilidade = cuidador.Disponibilidade,
                 Especializacoes = cuidador.Especializacoes,
-                UsuarioId = cuidador.UsuarioId,
-                UsuarioNome = cuidador.Usuario?.UsuarioNome
+                CuidadorNome = cuidador.Usuario?.UsuarioNome
             };
 
             return View(cuidadorViewModel);

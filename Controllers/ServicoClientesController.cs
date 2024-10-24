@@ -32,8 +32,7 @@ namespace AplicacaoCareWithLove.Controllers
                     DataInicio = s.DataInicio,
                     DataTermino = s.DataTermino,
                     Local = s.Local,
-                    DependenteId = s.DependenteId, // Apenas a chave estrangeira (ID)
-                    DependenteNome = s.Dependente?.DependenteNome // Caso queira incluir algum dado da entidade Dependente
+                    DependenteNome = s.Dependente?.DependenteNome 
                 });
             return View(servicos);
         }
@@ -59,7 +58,6 @@ namespace AplicacaoCareWithLove.Controllers
                 DataInicio = servicoCliente.DataInicio,
                 DataTermino = servicoCliente.DataTermino,
                 Local = servicoCliente.Local,
-                DependenteId = servicoCliente.DependenteId
             };
 
             return View(servicoClienteViewModel);
@@ -68,7 +66,13 @@ namespace AplicacaoCareWithLove.Controllers
         // GET: ServicoClientes/Create
         public IActionResult Create()
         {
-            ViewData["DependenteId"] = new SelectList(_dependenteService.ObterTodosDependentes(), "DependenteId", "DependenteNome");
+            var dependentes = _dependenteService.ObterTodosDependentes()
+                             .Select(c => new SelectListItem
+                             {
+                                 Value = c.DependenteId.ToString(),
+                                 Text = c.DependenteNome
+                             }).ToList();
+            ViewBag.DependenteId = new SelectList(dependentes, "Value", "Text");
             return View();
         }
 
@@ -77,11 +81,11 @@ namespace AplicacaoCareWithLove.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ServicoClienteInputModel servicoClienteInputModel)
         {
-            if (ModelState.IsValid)
+            if (servicoClienteInputModel != null && servicoClienteInputModel.DataTermino > servicoClienteInputModel.DataInicio)
             {
                 var servicoCliente = new ServicoCliente
                 {
-                    ServicoClienteId = Guid.NewGuid(),
+                    ServicoClienteId = Guid.NewGuid().ToString(),
                     Descricao = servicoClienteInputModel.Descricao,
                     DataInicio = servicoClienteInputModel.DataInicio,
                     DataTermino = servicoClienteInputModel.DataTermino,
@@ -131,7 +135,7 @@ namespace AplicacaoCareWithLove.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, ServicoClienteInputModel servicoClienteInputModel)
         {
-            if (id != servicoClienteInputModel.ServicoClienteId)
+            if (id.ToString() != servicoClienteInputModel.ServicoClienteId)
             {
                 return NotFound();
             }
@@ -176,7 +180,6 @@ namespace AplicacaoCareWithLove.Controllers
                 DataInicio = servicoCliente.DataInicio,
                 DataTermino = servicoCliente.DataTermino,
                 Local = servicoCliente.Local,
-                DependenteId = servicoCliente.DependenteId
             };
 
             return View(servicoClienteViewModel);

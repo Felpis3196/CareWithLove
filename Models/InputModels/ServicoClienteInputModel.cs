@@ -5,7 +5,7 @@ namespace CareWithLoveApp.Models.InputModels
     public class ServicoClienteInputModel
     {
         [Required(ErrorMessage = "O ID do serviço é obrigatório.")]
-        public Guid ServicoClienteId { get; set; }
+        public String ServicoClienteId { get; set; }
 
         [Required(ErrorMessage = "A descrição é obrigatória.")]
         [StringLength(500, ErrorMessage = "A descrição deve ter no máximo 500 caracteres.")]
@@ -28,6 +28,6 @@ namespace CareWithLoveApp.Models.InputModels
         // Relacionamento com Dependente
         [Required(ErrorMessage = "O dependente é obrigatório.")]
         [Display(Name = "Dependente")]
-        public Guid? DependenteId { get; set; }
+        public String? DependenteId { get; set; }
     }
 }

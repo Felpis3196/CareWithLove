@@ -8,7 +8,7 @@ namespace CareWithLoveApp.Models.ViewModel
     public class CuidadorViewModel
     {
         [Display(Name = "Código do Cuidador")]
-        public Guid CuidadorId { get; set; }
+        public String CuidadorId { get; set; }
 
         [Display(Name = "CPF")]
         public string? CPF { get; set; }
@@ -25,12 +25,8 @@ namespace CareWithLoveApp.Models.ViewModel
         [Display(Name = "Especializações")]
         public string? Especializacoes { get; set; }
 
-        // Detalhes do Usuario (se necessário)
-        [Display(Name = "Código do Usuário")]
-        public Guid? UsuarioId { get; set; }
-
-        [Display(Name = "Nome do Usuário")]
-        public string? UsuarioNome { get; set; }
+        [Display(Name = "Nome do Cuidador")]
+        public string? CuidadorNome { get; set; }
 
         // Lista de serviços oferecidos (opcional, dependendo do contexto)
         [Display(Name = "Serviços Oferecidos")]

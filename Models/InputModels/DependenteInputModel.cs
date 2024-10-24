@@ -5,7 +5,7 @@ namespace CareWithLoveApp.Models.InputModels
     public class DependenteInputModel
     {
         [Required(ErrorMessage = "O ID do dependente é obrigatório.")]
-        public Guid DependenteId { get; set; }
+        public String DependenteId { get; set; }
 
         [Required(ErrorMessage = "O nome do dependente é obrigatório.")]
         [StringLength(100, ErrorMessage = "O nome do dependente deve ter no máximo 100 caracteres.")]
@@ -37,6 +37,6 @@ namespace CareWithLoveApp.Models.InputModels
 
         // Relacionamento com Usuario
         [Display(Name = "Usuário Responsável")]
-        public Guid? UsuarioId { get; set; }
+        public String? UsuarioId { get; set; }
     }
 }

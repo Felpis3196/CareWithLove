@@ -5,7 +5,7 @@ namespace CareWithLoveApp.Models.InputModel
     public class ServicoCuidadorInputModel
     {
         [Required(ErrorMessage = "O ID do serviço do cuidador é obrigatório.")]
-        public Guid ServicoCuidadorId { get; set; }
+        public String ServicoCuidadorId { get; set; }
 
         [Required(ErrorMessage = "A descrição é obrigatória.")]
         [StringLength(500, ErrorMessage = "A descrição deve ter no máximo 500 caracteres.")]
@@ -28,6 +28,6 @@ namespace CareWithLoveApp.Models.InputModel
         // Id do Cuidador associado (relacionamento muitos-para-um)
         [Required(ErrorMessage = "O cuidador é obrigatório.")]
         [Display(Name = "Cuidador")]
-        public Guid? CuidadorId { get; set; }
+        public String? CuidadorId { get; set; }
     }
 }

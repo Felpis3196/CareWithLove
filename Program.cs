@@ -1,7 +1,9 @@
 using CareWithLoveApp.Data;
+using CareWithLoveApp.Models.Entities;
 using CareWithLoveApp.Repositories;
 using CareWithLoveApp.Services;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,14 +14,13 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddIdentity<User, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
 builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
 
 // Instanciando as services e reps
-builder.Services.AddScoped<IUsuarioService, UsuarioService>();
-builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
-
 builder.Services.AddScoped<IDependenteService, DependenteService>();
 builder.Services.AddScoped<IDependenteRepository, DependenteRepository>();
 
@@ -39,6 +40,7 @@ builder.Services.AddDbContext<MainContext>(
     options => options.UseSqlServer(connectionString)
 );
 
+builder.Services.AddTransient<IEmailSender, NoEmailSender>();
 
 //////////////////////////
 var app = builder.Build();

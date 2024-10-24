@@ -5,7 +5,7 @@ namespace CareWithLoveApp.Models.OutputModels
     public class UsuarioViewModel
     {
         [Display(Name = "Código do Usuário")]
-        public Guid UsuarioId { get; set; }
+        public String UsuarioId { get; set; }
         [Display(Name = "Nome do Usuário")]
         public string? UsuarioNome { get; set; }
         [Display(Name = "Sexo do Usuário")]

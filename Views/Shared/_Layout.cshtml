@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using CareWithLoveApp.Models.Entities
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -26,16 +31,13 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Index">Users</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Dependentes" asp-action="Index">Dependentes</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="ServicoClientes" asp-action="Index">ServicoClientes</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="ServicoCuidadores" asp-action="Index">ServicoCuidadores</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="ServicoCuidadores" asp-action="Index">ServicoCuidadores</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="ServicoClientes" asp-action="Index">ServicoClientes</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Cuidadores" asp-action="Index">Cuidadores</a>
@@ -44,8 +46,8 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Avaliacoes" asp-action="Index">Avaliacoes</a>
                         </li>
                     </ul>
-                    <partial name="_LoginPartial" />
                 </div>
+                <partial name="_LoginPartial" />
             </div>
         </nav>
     </header>
