@@ -10,6 +10,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
+using CareWithLoveApp.Data;
 using CareWithLoveApp.Models.Entities;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -31,6 +32,7 @@ namespace CareWithLoveApp.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly MainContext _mainContext;
 
         public RegisterModel(
             UserManager<User> userManager,
@@ -38,7 +40,8 @@ namespace CareWithLoveApp.Areas.Identity.Pages.Account
             SignInManager<User> signInManager,
             RoleManager<IdentityRole> roleManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            MainContext mainContext)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -47,6 +50,7 @@ namespace CareWithLoveApp.Areas.Identity.Pages.Account
             _roleManager = roleManager;
             _logger = logger;
             _emailSender = emailSender;
+            _mainContext = mainContext;
         }
 
         /// <summary>
@@ -161,6 +165,32 @@ namespace CareWithLoveApp.Areas.Identity.Pages.Account
                     UsuarioLogradouro = Input.UsuarioLogradouro,
                     UsuarioTipo = Input.UsuarioTipo // Este campo será o role
                 };
+
+                var usuario = new User
+                {
+                    Id = user.Id,
+                    UsuarioNome = user.UsuarioNome,
+                    UsuarioSexo = user.UsuarioSexo,
+                    UsuarioTelefone = user.UsuarioTelefone,
+                    DataNascimento = user.DataNascimento,
+                    UsuarioLogradouro = user.UsuarioLogradouro,
+                    UsuarioTipo = user.UsuarioTipo,
+                    UserName = user.UserName,
+                    NormalizedUserName = user.NormalizedUserName,
+                    EmailConfirmed = user.EmailConfirmed,
+                    PasswordHash = user.PasswordHash,
+                    SecurityStamp = user.SecurityStamp,
+                    ConcurrencyStamp = user.ConcurrencyStamp,
+                    PhoneNumberConfirmed = user.PhoneNumberConfirmed,
+                    PhoneNumber = user.PhoneNumber,
+                    TwoFactorEnabled = user.TwoFactorEnabled,
+                    LockoutEnabled = user.LockoutEnabled,
+                    LockoutEnd = user.LockoutEnd,
+                    AccessFailedCount = user.AccessFailedCount,
+                };
+
+                _mainContext.Usuarios.Add(usuario);
+                _mainContext.SaveChanges();
 
                 // Define o nome de usuário e o email
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);

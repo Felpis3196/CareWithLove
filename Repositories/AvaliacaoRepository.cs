@@ -48,7 +48,7 @@ namespace CareWithLoveApp.Repositories
         public IEnumerable<Avaliacao> GetAll()
         {
             return _context.Avaliacao
-                .Include(a => a.Usuario);
+                    .Include(a => a.Usuario);
         }
     }
 }

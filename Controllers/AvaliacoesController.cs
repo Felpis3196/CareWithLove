@@ -28,6 +28,9 @@ namespace CareWithLoveApp.Controllers
         // GET: Avaliacoes
         public async Task<IActionResult> Index()
         {
+            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var usuario = await _userManager.FindByIdAsync(userIdString);
+
             var avaliacoes = _avaliacaoService.ObterTodasAvaliacoes()
                 .Select(a => new AvaliacaoViewModel
                 {
@@ -35,7 +38,7 @@ namespace CareWithLoveApp.Controllers
                     Nota = a.Nota,
                     Review = a.Review,
                     UsuarioId = User.FindFirstValue(ClaimTypes.NameIdentifier),
-                    UsuarioNome = a.Usuario.UserName
+                    UsuarioNome = usuario.UsuarioNome
                 });
 
             return View(avaliacoes);
@@ -77,7 +80,7 @@ namespace CareWithLoveApp.Controllers
                     AvaliacaoId = Guid.NewGuid().ToString(),
                     Nota = avaliacaoInputModel.Nota,
                     Review = avaliacaoInputModel.Review,
-                    UsuarioId = usuarioIdGuid.ToString()
+                    UsuarioId = usuarioIdGuid.ToString(),
                 };
 
                 _avaliacaoService.CriarAvaliacao(avaliacao);

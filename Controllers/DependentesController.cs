@@ -85,6 +85,21 @@ namespace AplicacaoCareWithLove.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(DependenteInputModel dependenteInputModel)
         {
+            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var usuario = await _userManager.FindByIdAsync(userIdString);
+
+            if (usuario == null)
+            {
+                ModelState.AddModelError("UsuarioId", "Usuário não encontrado.");
+                return View(dependenteInputModel);
+            }
+
+            if (!Guid.TryParse(usuario.Id, out Guid usuarioIdGuid))
+            {
+                ModelState.AddModelError("UsuarioId", "ID do usuário inválido.");
+                return View(dependenteInputModel);
+            }
+
             if (dependenteInputModel != null)
             {
                 var dependente = new Dependente
@@ -96,7 +111,7 @@ namespace AplicacaoCareWithLove.Controllers
                     Insulina = dependenteInputModel.Insulina,
                     TelefoneEmergencia = dependenteInputModel.TelefoneEmergencia,
                     Cuidados = dependenteInputModel.Cuidados,
-                    UsuarioId = dependenteInputModel.UsuarioId
+                    UsuarioId = usuarioIdGuid.ToString()
                 };
 
                 _dependenteService.AdicionarDependente(dependente);

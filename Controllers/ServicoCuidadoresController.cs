@@ -81,8 +81,7 @@ namespace CareWithLoveApp.Controllers
             ViewBag.CuidadorId = new SelectList(cuidadores, "Value", "Text");
             return View();
         }
-
-            
+         
         // POST: ServicoCuidadores/Create
         [HttpPost]
         [ValidateAntiForgeryToken]

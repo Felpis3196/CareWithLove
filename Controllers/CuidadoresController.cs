@@ -91,6 +91,21 @@ namespace CareWithLoveApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CuidadorInputModel cuidadorInputModel)
         {
+            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var usuario = await _userManager.FindByIdAsync(userIdString);
+
+            if (usuario == null)
+            {
+                ModelState.AddModelError("UsuarioId", "Usuário não encontrado.");
+                return View(cuidadorInputModel);
+            }
+
+            if (!Guid.TryParse(usuario.Id, out Guid usuarioIdGuid))
+            {
+                ModelState.AddModelError("UsuarioId", "ID do usuário inválido.");
+                return View(cuidadorInputModel);
+            }
+
             if (cuidadorInputModel != null)
             {
                 var cuidador = new Cuidador
@@ -101,7 +116,7 @@ namespace CareWithLoveApp.Controllers
                     ValorHora = cuidadorInputModel.ValorHora,
                     Disponibilidade = cuidadorInputModel.Disponibilidade,
                     Especializacoes = cuidadorInputModel.Especializacoes,
-                    UsuarioId = User.FindFirstValue(ClaimTypes.NameIdentifier),
+                    UsuarioId = usuarioIdGuid.ToString()
                 };
 
                 _cuidadorService.CriarCuidador(cuidador);
