@@ -1,22 +1,153 @@
 html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    font-size: 14px;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    background-color: ghostwhite;
 }
+
+/*************************************************************************************************/
+
+.navPerfil {
+    color: black;
+    background-color: aqua;
+}
+
+    .navPerfil:hover {
+        background-color: #FFF0DF;
+        color: black;
+    }
+
+/************************ COR DE FUNDO E DE TEXTO MODIFICADA QUANDO ATIVADO ************************/
+
+#profile.nav-link.active {
+    background-color: #eead1f;
+    color: white;
+}
+
+#email.nav-link.active {
+    background-color: #eead1f;
+    color: white;
+}
+
+#change-password.nav-link.active {
+    background-color: #eead1f;
+    color: white;
+}
+
+#personal-data.nav-link.active {
+    background-color: #eead1f;
+    color: white;
+}
+/******************************************* HOME *******************************************/
+
+#TelEmerg {
+    flex-direction: row;
+}
+
+#feed {
+    display: flex;
+    justify-content: center;
+}
+
+#miolo {
+    display: flex;
+    justify-content: center;
+}
+
+
+/***************************************** NAVBAR *****************************************/
+#home.nav-link:hover, #cuidadores.nav-link:hover,
+#dependentes.nav-link:hover, #servCuidador.nav-link:hover,
+#servCliente.nav-link:hover, #avaliacoes.nav-link:hover,
+#feedss.nav-link:hover, #btnSair.nav-link:hover, #btnRegistro.nav-link:hover,
+#btnEntrar.nav-link:hover, #btnPerfil.nav-link:hover {
+    font-weight: bold;
+}
+
+#profile.nav-link {
+    color: black;
+}
+
+#email.nav-link {
+    color: black;
+}
+
+#change-password.nav-link {
+    color: black;
+}
+
+#personal-data.nav-link {
+    color: black;
+}
+
+/*#dependente.nav-link:hover,
+#servCliente.nav-link:hover, #servCuidador.nav-link:hover,
+#cuidadores.nav-link:hover, #avaliacoes.nav-link:hover,
+#feedss.nav-link:hover, #btnSair.nav-link:hover, #btnRegistro.nav-link:hover,
+#btnEntrar.nav-link:hover*/
+
+/*********************************** RESPONSIVO ***********************************/
+@media (max-width: 576px) {
+    html {
+        font-size: 16px;
+    }
+
+    #TelEmerg {
+        flex-direction: column;
+    }
+
+    #nossosPrincipios {
+        flex-direction: column;
+    }
+
+    header {
+        background-color: aqua;
+    }
+
+    #feed {
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    #miolo {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #divNAV {
+        background-color: #FFF0DF;
+        position: relative;
+        z-index: 10;
+        padding-left: 20px;
+    }
+}
+
+@media (min-width: 577px) and (max-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+
+    #feed {
+        justify-content: center;
+    }
+
+    #miolo {
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    #navbar-collapse {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+
+/***************************ESTILO PARA FORMULÁRIOS*************************************/

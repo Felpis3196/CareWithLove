@@ -1,14 +1,18 @@
 ﻿@model IEnumerable<CareWithLoveApp.Models.ViewModels.AvaliacaoViewModel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Avaliações";
 }
 
-<h1>Index</h1>
+<h1>@ViewData["Title"]</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
+
+<p class="mt-5">
+    <a class="btn text-white" style="background-color: #EC9440" asp-action="Create">
+        <svg class="me-2" bootstrap-icon="PlusSquare" width="20" height="20" aria-label="Mais quadrado"></svg> Nova Avaliação
+    </a>
 </p>
+
 <table class="table">
     <thead>
         <tr>
@@ -25,21 +29,24 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nota)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Review)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UsuarioNome)
-            </td>
-            <td>
-                <a asp-action="Delete" asp-route-id="@item.AvaliacaoId">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nota)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Review)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UsuarioNome)
+                </td>
+                <td>
+                    <a class="btn btn-danger text-white" asp-action="Delete" asp-route-id="@item.AvaliacaoId">
+                        <svg bootstrap-icon="Trash" width="20" height="20" aria-label="Lixo"></svg>
+                    </a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

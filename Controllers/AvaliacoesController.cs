@@ -109,7 +109,8 @@ namespace CareWithLoveApp.Controllers
                 AvaliacaoId = avaliacao.AvaliacaoId,
                 Nota = avaliacao.Nota,
                 Review = avaliacao.Review,
-                UsuarioId = avaliacao.UsuarioId
+                UsuarioId = avaliacao.UsuarioId,
+                UsuarioNome = avaliacao.Usuario.UsuarioNome
             };
 
             return View(avaliacaoViewModel);

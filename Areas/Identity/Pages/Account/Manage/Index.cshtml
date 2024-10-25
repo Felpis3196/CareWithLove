@@ -1,7 +1,7 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Profile";
+    ViewData["Title"] = "Perfil";
     ViewData["ActivePage"] = ManageNavPages.Index;
 }
 
@@ -11,24 +11,24 @@
     <div class="col-md-3">
         <partial name="_ManageNav" />
     </div>
-    <div class="col-md-9">
+    <div class="col-md-9" style="width: 35%">
         <form id="profile-form" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
 
             <div class="form-floating mb-3">
-                <input asp-for="Username" class="form-control" placeholder="Please choose your username." disabled />
+                <input asp-for="Username" class="form-control" placeholder="Usuário" disabled />
                 <label asp-for="Username" class="form-label"></label>
             </div>
 
             <div class="form-floating mb-3">
-                <input asp-for="Input.UsuarioNome" class="form-control" placeholder="Please enter your full name." />
+                <input asp-for="Input.UsuarioNome" class="form-control" placeholder="Nome Completo" />
                 <label asp-for="Input.UsuarioNome" class="form-label"></label>
                 <span asp-validation-for="Input.UsuarioNome" class="text-danger"></span>
             </div>
 
             <div class="form-floating mb-3">
                 <select asp-for="Input.UsuarioSexo" class="form-control">
-                    <option value="">Select gender</option>
+                    <option value="">Gênero</option>
                     <option value="Masculino">Masculino</option>
                     <option value="Feminino">Feminino</option>
                 </select>
@@ -37,26 +37,26 @@
             </div>
 
             <div class="form-floating mb-3">
-                <input asp-for="Input.UsuarioTelefone" class="form-control" placeholder="Please enter your phone number." />
+                <input asp-for="Input.UsuarioTelefone" class="form-control" placeholder="Número de Telefone" />
                 <label asp-for="Input.UsuarioTelefone" class="form-label"></label>
                 <span asp-validation-for="Input.UsuarioTelefone" class="text-danger"></span>
             </div>
 
             <div class="form-floating mb-3">
-                <input asp-for="Input.DataNascimento" class="form-control" type="date" placeholder="Please enter your birth date." />
+                <input asp-for="Input.DataNascimento" class="form-control" type="date" placeholder="Data de Nascimento" />
                 <label asp-for="Input.DataNascimento" class="form-label"></label>
                 <span asp-validation-for="Input.DataNascimento" class="text-danger"></span>
             </div>
 
             <div class="form-floating mb-3">
-                <input asp-for="Input.UsuarioLogradouro" class="form-control" placeholder="Please enter your address." />
+                <input asp-for="Input.UsuarioLogradouro" class="form-control" placeholder="Endereço" />
                 <label asp-for="Input.UsuarioLogradouro" class="form-label"></label>
                 <span asp-validation-for="Input.UsuarioLogradouro" class="text-danger"></span>
             </div>
 
             <div class="form-floating mb-3">
                 <select asp-for="Input.UsuarioTipo" class="form-control">
-                    <option value="">Select user type</option>
+                    <option value="">Tipo de Usuário</option>
                     <option value="Cuidador">Cuidador</option>
                     <option value="Responsável">Responsável</option>
                 </select>
@@ -64,9 +64,10 @@
                 <span asp-validation-for="Input.UsuarioTipo" class="text-danger"></span>
             </div>
 
-            <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
+            <button id="update-profile-button" type="submit" class="w-100 btn btn-lg text-white" style="background-color: #eb9b9a">Salvar</button>
         </form>
     </div>
+</div>
 </div>
 
 @section Scripts {
