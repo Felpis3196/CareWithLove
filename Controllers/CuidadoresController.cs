@@ -91,18 +91,18 @@ namespace CareWithLoveApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CuidadorInputModel cuidadorInputModel)
         {
-            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var usuario = await _userManager.FindByIdAsync(userIdString);
+            var usuarioId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            if (usuario == null)
+            if (_cuidadorService.UsuarioJaPossuiCuidador(usuarioId))
             {
-                ModelState.AddModelError("UsuarioId", "Usuário não encontrado.");
+                ModelState.AddModelError(string.Empty, "Você já possui um cuidador cadastrado.");
                 return View(cuidadorInputModel);
             }
 
-            if (!Guid.TryParse(usuario.Id, out Guid usuarioIdGuid))
+            var usuario = await _userManager.FindByIdAsync(usuarioId);
+            if (usuario == null)
             {
-                ModelState.AddModelError("UsuarioId", "ID do usuário inválido.");
+                ModelState.AddModelError("UsuarioId", "Usuário não encontrado.");
                 return View(cuidadorInputModel);
             }
 
@@ -116,14 +116,13 @@ namespace CareWithLoveApp.Controllers
                     ValorHora = cuidadorInputModel.ValorHora,
                     Disponibilidade = cuidadorInputModel.Disponibilidade,
                     Especializacoes = cuidadorInputModel.Especializacoes,
-                    UsuarioId = usuarioIdGuid.ToString()
+                    UsuarioId = usuarioId
                 };
 
                 _cuidadorService.CriarCuidador(cuidador);
                 return RedirectToAction(nameof(Index));
             }
 
-            cuidadorInputModel.UsuarioId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             return View(cuidadorInputModel);
         }
 

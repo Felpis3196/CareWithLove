@@ -69,5 +69,10 @@ namespace CareWithLoveApp.Services
 
             _cuidadorRepository.Add(cuidador);
         }
+
+        public bool UsuarioJaPossuiCuidador(string usuarioId)
+        {
+            return _cuidadorRepository.GetAll().Any(c => c.UsuarioId == usuarioId);
+        }
     }
 }
