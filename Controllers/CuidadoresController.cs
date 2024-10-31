@@ -27,7 +27,6 @@ namespace CareWithLoveApp.Controllers
             _userManager = userManager;
         }
 
-        // GET: Cuidadores
         public async Task<IActionResult> Index()
         {
             var usuarioLogadoId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -54,6 +53,7 @@ namespace CareWithLoveApp.Controllers
             var listaCuidadores = await Task.WhenAll(cuidadores);
             return View(listaCuidadores);
         }
+
 
 
         // GET: Cuidadores/Details/5
@@ -102,18 +102,22 @@ namespace CareWithLoveApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CuidadorInputModel cuidadorInputModel)
         {
-            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var usuario = await _userManager.FindByIdAsync(userIdString);
+            var usuarioLogadoId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var cuidadorExistente = _cuidadorService.ObterTodosCuidadores()
+                .FirstOrDefault(c => c.UsuarioId == usuarioLogadoId);
+
+            if (cuidadorExistente != null)
+            {
+                ModelState.AddModelError("", "Você já possui um cuidador registrado.");
+                return View(cuidadorInputModel);
+            }
+
+            var usuario = await _userManager.FindByIdAsync(usuarioLogadoId);
 
             if (usuario == null)
             {
                 ModelState.AddModelError("UsuarioId", "Usuário não encontrado.");
-                return View(cuidadorInputModel);
-            }
-
-            if (!Guid.TryParse(usuario.Id, out Guid usuarioIdGuid))
-            {
-                ModelState.AddModelError("UsuarioId", "ID do usuário inválido.");
                 return View(cuidadorInputModel);
             }
 
@@ -127,16 +131,16 @@ namespace CareWithLoveApp.Controllers
                     ValorHora = cuidadorInputModel.ValorHora,
                     Disponibilidade = cuidadorInputModel.Disponibilidade,
                     Especializacoes = cuidadorInputModel.Especializacoes,
-                    UsuarioId = usuarioIdGuid.ToString()
+                    UsuarioId = usuarioLogadoId
                 };
 
                 _cuidadorService.CriarCuidador(cuidador);
                 return RedirectToAction(nameof(Index));
             }
 
-            cuidadorInputModel.UsuarioId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             return View(cuidadorInputModel);
         }
+
 
         // GET: Cuidadores/Edit/5
         public async Task<IActionResult> Edit(Guid id)
