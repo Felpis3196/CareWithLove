@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace CareWithLoveApp.Migrations.Main
+namespace CareWithLoveApp.Migrations
 {
     [DbContext(typeof(MainContext))]
     partial class MainContextModelSnapshot : ModelSnapshot

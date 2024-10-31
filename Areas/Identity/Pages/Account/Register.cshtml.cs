@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -34,6 +35,14 @@ namespace CareWithLoveApp.Areas.Identity.Pages.Account
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly MainContext _mainContext;
 
+        private Dictionary<string, string> errorMessages = new Dictionary<string, string>
+        {
+            { "DuplicateUserName", "Nome do usuário já está em uso." },
+            // Adicione mais códigos e mensagens conforme necessário
+            // { "ERR002", "Email format is invalid." },
+            
+        };
+      
         public RegisterModel(
             UserManager<User> userManager,
             IUserStore<User> userStore,
@@ -82,19 +91,20 @@ namespace CareWithLoveApp.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
+
+            [Required(ErrorMessage = "O E-mail é obrigatório.")]
             [EmailAddress]
-            [Display(Name = "Email")]
+            [Display(Name = "E-mail")]
             public string Email { get; set; }
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [Required(ErrorMessage = "A Senha é obrigatório.")]
+            [StringLength(100, ErrorMessage = "O {0} deve ter pelo menos {2} e no máximo {1} caracteres.", MinimumLength = 6)]
             [DataType(DataType.Password)]
-            [Display(Name = "Password")]
+            [Display(Name = "Senha")]
             public string Password { get; set; }
 
             /// <summary>
@@ -102,30 +112,38 @@ namespace CareWithLoveApp.Areas.Identity.Pages.Account
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Display(Name = "Confirmar Senha")]
+            [Compare("Password", ErrorMessage = "A senha e a senha de confirmação não coincidem.")]
             public string ConfirmPassword { get; set; }
+
+
+
 
             // Additional fields from the User class
 
             public Guid UsuarioId { get; set; }
 
+            [Required(ErrorMessage = "O Nome é obrigatório.")]
             [Display(Name = "Nome Completo")]
             public string? UsuarioNome { get; set; }
 
             [Display(Name = "Sexo")]
             public string? UsuarioSexo { get; set; }
 
+            [Required(ErrorMessage = "O Telefone é obrigatório.")]
             [Display(Name = "Telefone")]
             public string? UsuarioTelefone { get; set; }
 
+            [Required(ErrorMessage = "A Data de Nascimento é obrigatório.")]
             [Display(Name = "Data de Nascimento")]
             [DataType(DataType.Date)]
             public DateOnly DataNascimento { get; set; }
 
+            [Required(ErrorMessage = "O Logradouro é obrigatório.")]
             [Display(Name = "Logradouro")]
             public string? UsuarioLogradouro { get; set; }
 
+            [Required(ErrorMessage = "O Tipo é obrigatório.")]
             [Display(Name = "Tipo de Usuário")]
             public string? UsuarioTipo { get; set; } // "Cuidador" ou "Responsável"
         }
@@ -201,7 +219,7 @@ namespace CareWithLoveApp.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User created a new account with password.");
+                    _logger.LogInformation("O usuário criou uma nova conta com senha.");
 
                     // Verifica se o role existe, caso contrário, cria-o
                     if (!await _roleManager.RoleExistsAsync(user.UsuarioTipo))
@@ -244,13 +262,23 @@ namespace CareWithLoveApp.Areas.Identity.Pages.Account
 
                 foreach (var error in result.Errors)
                 {
-                    ModelState.AddModelError(string.Empty, error.Description);
+                    ModelState.AddModelError(string.Empty, getErrorMessage(error));
                 }
             }
 
             return Page();
         }
 
+
+        private string getErrorMessage(IdentityError error)
+        {
+            string errorMessage = error.Description;
+
+            if (errorMessages.ContainsKey(error.Code))
+                errorMessage = errorMessages[error.Code];
+
+            return errorMessage;
+        }
 
 
         private User CreateUser()

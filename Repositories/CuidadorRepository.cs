@@ -38,7 +38,8 @@ namespace CareWithLoveApp.Repositories
         public IEnumerable<Cuidador> GetAll()
         {
             return _context.Cuidadores
-                .Include(d => d.ServicosCuidador);
+                .Include(d => d.ServicosCuidador)
+                .Include(d => d.Usuario);
         }
 
 

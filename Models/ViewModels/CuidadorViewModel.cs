@@ -33,6 +33,6 @@ namespace CareWithLoveApp.Models.ViewModel
         [Display(Name = "Serviços Oferecidos")]
         public List<ServicoCuidadorViewModel>? ServicosCuidador { get; set; }
         public string? UsuarioId { get; set; }
-        public User Usuario { get; set; }
+        public User? Usuario { get; set; }
     }
 }

@@ -4,26 +4,24 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Cuidadores Feed</h1>
+<h1>Cuidadores</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-
-@foreach (var item in Model)
-{
-    <div class="card" style="width: 18rem;">
-        <div class="card-body">
-            <h5 class="card-title">@Html.DisplayFor(modelItem => item.CuidadorNome)</h5>
-            <p class="card-text">
-                Olá, sou @Html.DisplayFor(modelItem => item.CuidadorNome),
-                formado em @Html.DisplayFor(modelItem => item.Especializacoes)
-                a @Html.DisplayFor(modelItem => item.Experiencia)
-            </p>
-            <p>@Html.DisplayFor(modelItem => item.Usuario.UsuarioTelefone)</p>
+<div class="d-flex">
+    @foreach (var item in Model)
+    {
+        <div class="card m-2 p-2" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">@Html.DisplayFor(modelItem => item.CuidadorNome)</h5>
+                <p class="card-text">
+                    Olá, sou @Html.DisplayFor(modelItem => item.Usuario.UsuarioNome),
+                    especializado em @Html.DisplayFor(modelItem => item.Especializacoes)
+                    a @Html.DisplayFor(modelItem => item.Experiencia)
+                </p>
+                <p>@Html.DisplayFor(modelItem => item.Usuario.UsuarioTelefone)</p>
+            </div>
         </div>
-    </div>
-}
+    }
+</div>
 
 <table class="table">
     <thead>
@@ -44,8 +42,10 @@
                 @Html.DisplayNameFor(model => model.Especializacoes)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CuidadorNome)
+                @Html.DisplayNameFor(model => model.Usuario.UsuarioNome)
             </th>
+            <th></th>
+            <th></th>
             <th></th>
         </tr>
     </thead>
@@ -72,9 +72,19 @@
                     @Html.DisplayFor(modelItem => item.CuidadorNome)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.CuidadorId">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.CuidadorId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.CuidadorId">Delete</a>
+                    <a class="btn text-white" style="background-color: #EC9440" asp-action="Edit" asp-route-id="@item.CuidadorId">
+                        <svg bootstrap-icon="PencilSquare" width="20" height="20" aria-label="Editar"></svg>
+                    </a>
+                </td>
+                <td>
+                    <a class="btn btn-secondary" asp-action="Details" asp-route-id="@item.CuidadorId">
+                        <svg bootstrap-icon="InfoCircle" width="20" height="20" aria-label="Informação"></svg>
+                    </a>
+                </td>
+                <td>
+                    <a class="btn btn-danger text-white" asp-action="Delete" asp-route-id="@item.CuidadorId">
+                        <svg bootstrap-icon="Trash" width="20" height="20" aria-label="Lixo"></svg>
+                    </a>
                 </td>
             </tr>
         }

@@ -34,32 +34,41 @@ namespace CareWithLoveApp.Controllers
             var usuarioLogado = await _userManager.FindByIdAsync(usuarioLogadoId);
 
             var cuidadores = _cuidadorService.ObterTodosCuidadores()
-                .Select(c => new CuidadorViewModel
-                {
-                    CuidadorId = c.CuidadorId,
-                    CPF = c.CPF,
-                    Experiencia = c.Experiencia,
-                    ValorHora = c.ValorHora,
-                    Disponibilidade = c.Disponibilidade,
-                    Especializacoes = c.Especializacoes,
-                    CuidadorNome = usuarioLogado?.UsuarioNome,
-                    UsuarioId = usuarioLogadoId,
-                    Usuario = usuarioLogado
+                .Select(async c => {
+                    var usuarioCuidador = await _userManager.FindByIdAsync(c.UsuarioId);
+
+                    return new CuidadorViewModel
+                    {
+                        CuidadorId = c.CuidadorId,
+                        CPF = c.CPF,
+                        Experiencia = c.Experiencia,
+                        ValorHora = c.ValorHora,
+                        Disponibilidade = c.Disponibilidade,
+                        Especializacoes = c.Especializacoes,
+                        CuidadorNome = usuarioCuidador?.UsuarioNome,
+                        UsuarioId = c.UsuarioId,
+                        Usuario = usuarioCuidador
+                    };
                 });
 
-            return View(cuidadores);
+            var listaCuidadores = await Task.WhenAll(cuidadores);
+            return View(listaCuidadores);
         }
 
 
         // GET: Cuidadores/Details/5
         public async Task<IActionResult> Details(Guid id)
         {
+            var usuarioLogadoId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var usuarioLogado = await _userManager.FindByIdAsync(usuarioLogadoId);
+
             if (id == Guid.Empty)
             {
                 return NotFound();
             }
 
-            var cuidador = _cuidadorService.ObterCuidadorPorId(id);
+            var cuidadores = _cuidadorService.ObterTodosCuidadores();
+            /*
             if (cuidador == null)
             {
                 return NotFound();
@@ -73,10 +82,10 @@ namespace CareWithLoveApp.Controllers
                 ValorHora = cuidador.ValorHora,
                 Disponibilidade = cuidador.Disponibilidade,
                 Especializacoes = cuidador.Especializacoes,
-                CuidadorNome = cuidador.Usuario.UsuarioNome
+                CuidadorNome = usuarioLogado.UsuarioNome
             };
-
-            return View(cuidadorViewModel);
+            */
+            return View(cuidadores);
         }
 
         // GET: Cuidadores/Create
