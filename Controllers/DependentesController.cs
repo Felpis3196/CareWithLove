@@ -39,7 +39,7 @@ namespace AplicacaoCareWithLove.Controllers
                     DependenteEndereco = d.DependenteEndereco,
                     Insulina = d.Insulina,
                     TelefoneEmergencia = d.TelefoneEmergencia,
-                    Cuidados = d.Cuidados,
+                    Cuidados = d.Cuidados,                   
                 });
             return View(dependentes);
         }

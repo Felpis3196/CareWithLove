@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CareWithLoveApp.Migrations.ApplicationDb
 {
     /// <inheritdoc />
-    public partial class idMig : Migration
+    public partial class App : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

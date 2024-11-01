@@ -4,7 +4,7 @@
     ViewData["Title"] = "Entrar";
 }
 
-<div class="mt-5" style="height: 100%; width: 40%; padding: 20px; border-radius: 40px; border: 1px solid #000; margin: auto">
+<div class="mt-5" style="height: 430px; width: 350px; padding: 20px; border-radius: 40px; border: 1px solid #000; margin: auto">
     <h1 class="text-center">@ViewData["Title"]</h1>
     <br />
     <div class="row">
@@ -14,6 +14,7 @@
 
                 <hr />
                 <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+
                 <div class="form-floating mb-3">
                     <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
                     <label asp-for="Input.Email" class="form-label">E-mail</label>
@@ -32,7 +33,7 @@
                     <p>
                         <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" style="color: #646a4a">Registrar uma nova conta</a>
                     </p>
-                </div>
+                </div>  
             </form>
         </div>
     </div>

@@ -4,11 +4,26 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Dependentes</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<div class="d-flex">
+    @foreach (var item in Model)
+    {
+        <div class="card m-2 p-2" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">@Html.DisplayFor(modelItem => item.DependenteNome)</h5>
+                <p class="card-text">
+                    Olá, sou @Html.DisplayFor(modelItem => item.DependenteNome),
+                    tenho @Html.DisplayFor(modelItem => item.DependenteIdade) anos  
+                    e possuo @Html.DisplayFor(modelItem => item.Cuidados).
+                </p>
+                <p>Preciso de cuidados especiais, se puder me ajudar,
+                    ligue para @Html.DisplayFor(modelItem => item.TelefoneEmergencia)</p>
+            </div>
+        </div>
+    }
+</div>
+
 <table class="table">
     <thead>
         <tr>
@@ -31,35 +46,48 @@
                 @Html.DisplayNameFor(model => model.Cuidados)
             </th>
             <th></th>
+            <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.DependenteNome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DependenteIdade)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DependenteEndereco)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Insulina)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TelefoneEmergencia)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cuidados)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.DependenteId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.DependenteId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.DependenteId">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DependenteNome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DependenteIdade)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DependenteEndereco)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Insulina)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TelefoneEmergencia)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cuidados)
+                </td>
+                <td>
+                    <a class="btn text-white" style="background-color: #EC9440" asp-action="Edit" asp-route-id="@item.DependenteId">
+                        <svg bootstrap-icon="PencilSquare" width="20" height="20" aria-label="Editar"></svg>
+                    </a>
+                </td>
+                <td>
+                    <a class="btn btn-secondary" asp-action="Details" asp-route-id="@item.DependenteId">
+                        <svg bootstrap-icon="InfoCircle" width="20" height="20" aria-label="Informação"></svg>
+                    </a>
+                </td>
+                <td>
+                    <a class="btn btn-danger text-white" asp-action="Delete" asp-route-id="@item.DependenteId">
+                        <svg bootstrap-icon="Trash" width="20" height="20" aria-label="Lixo"></svg>
+                    </a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

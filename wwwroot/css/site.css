@@ -15,8 +15,8 @@ body {
 /*************************************************************************************************/
 
 .navPerfil {
-    color: black;
-    background-color: aqua;
+    color: white;
+    overflow: auto;
 }
 
     .navPerfil:hover {

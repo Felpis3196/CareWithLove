@@ -9,13 +9,13 @@ using CareWithLoveApp.Models.Entities;
 public class LoginModel : PageModel
 {
     private readonly SignInManager<User> _signInManager;
-    private readonly UserManager<User> _userManager; 
+    private readonly UserManager<User> _userManager;
     private readonly ILogger<LoginModel> _logger;
 
     public LoginModel(SignInManager<User> signInManager, UserManager<User> userManager, ILogger<LoginModel> logger)
     {
         _signInManager = signInManager;
-        _userManager = userManager; 
+        _userManager = userManager;
         _logger = logger;
     }
 
@@ -31,16 +31,16 @@ public class LoginModel : PageModel
 
     public class InputModel
     {
-        [Required]
+        [Required(ErrorMessage = "O campo E-mail é obrigatório.")]
         [EmailAddress]
         [Display(Name = "Email / Usuario")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "O campo Senha é obrigatório.")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-        [Display(Name = "Remember me?")]
+        [Display(Name = "Lembrar de mim?")]
         public bool RememberMe { get; set; }
     }
 
@@ -83,7 +83,7 @@ public class LoginModel : PageModel
             var result = await _signInManager.PasswordSignInAsync(userName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
             if (result.Succeeded)
             {
-                _logger.LogInformation("User logged in.");
+                _logger.LogInformation("Usuário logado.");
                 return LocalRedirect(returnUrl);
             }
             if (result.RequiresTwoFactor)
@@ -92,12 +92,12 @@ public class LoginModel : PageModel
             }
             if (result.IsLockedOut)
             {
-                _logger.LogWarning("User account locked out.");
+                _logger.LogWarning("Conta de usuário bloqueada.");
                 return RedirectToPage("./Lockout");
             }
             else
             {
-                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                ModelState.AddModelError(string.Empty, "Tentativa de login inválida.");
                 return Page();
             }
         }
