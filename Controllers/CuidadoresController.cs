@@ -33,21 +33,17 @@ namespace CareWithLoveApp.Controllers
             var usuarioLogado = await _userManager.FindByIdAsync(usuarioLogadoId);
 
             var cuidadores = _cuidadorService.ObterTodosCuidadores()
-                .Select(async c => {
-                    var usuarioCuidador = await _userManager.FindByIdAsync(c.UsuarioId);
-
-                    return new CuidadorViewModel
-                    {
-                        CuidadorId = c.CuidadorId,
-                        CPF = c.CPF,
-                        Experiencia = c.Experiencia,
-                        ValorHora = c.ValorHora,
-                        Disponibilidade = c.Disponibilidade,
-                        Especializacoes = c.Especializacoes,
-                        CuidadorNome = usuarioCuidador?.UsuarioNome,
-                        UsuarioId = c.UsuarioId,
-                        Usuario = usuarioCuidador
-                    };
+                .Select(async c => new CuidadorViewModel
+                {
+                    CuidadorId = c.CuidadorId,
+                    CPF = c.CPF,
+                    Experiencia = c.Experiencia,
+                    ValorHora = c.ValorHora,
+                    Disponibilidade = c.Disponibilidade,
+                    Especializacoes = c.Especializacoes,
+                    CuidadorNome = c.Usuario.UsuarioNome,
+                    UsuarioId = c.UsuarioId,
+                    Usuario = c.Usuario
                 });
 
             var listaCuidadores = await Task.WhenAll(cuidadores);
@@ -88,6 +84,8 @@ namespace CareWithLoveApp.Controllers
             return View(cuidadores);
         }
 
+        // 
+        
         // GET: Cuidadores/Create
         public async Task<IActionResult> Create()
         {

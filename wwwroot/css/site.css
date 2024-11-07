@@ -1,5 +1,5 @@
 html {
-    font-size: 14px;
+    font-size: 16px;
 }
 
 html {
@@ -15,8 +15,7 @@ body {
 /*************************************************************************************************/
 
 .navPerfil {
-    color: white;
-    overflow: auto;
+    color: black;
 }
 
     .navPerfil:hover {
@@ -45,6 +44,8 @@ body {
     background-color: #eead1f;
     color: white;
 }
+
+
 /******************************************* HOME *******************************************/
 
 #TelEmerg {
@@ -86,6 +87,7 @@ body {
 #personal-data.nav-link {
     color: black;
 }
+
 
 /*#dependente.nav-link:hover,
 #servCliente.nav-link:hover, #servCuidador.nav-link:hover,

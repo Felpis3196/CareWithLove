@@ -1,7 +1,5 @@
 ﻿@using CareWithLoveApp.Models.Entities
 @using Microsoft.AspNetCore.Identity
-@inject SignInManager<User> SignInManager
-@inject UserManager<User> UserManager
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -25,29 +23,35 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex d-md-inline-flex justify-content-between p-2" style="background-color: #FFF0DF">
+                <div id="IdNav" class="navbar-collapse collapse d-sm-inline-flex justify-content-between" style="background-color: #FFF0DF">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
+                        <li class="nav-item p-2">
                             <a class="nav-link text-dark" id="home" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item p-2">
                             <a class="nav-link text-dark" id="cuidadores" asp-area="" asp-controller="Cuidadores" asp-action="Index">Cuidadores</a>
                         </li>
+
                         <li class="nav-item">
+                            <a class="nav-link text-dark" id="" asp-area="" asp-controller="Cuidadores" asp-action="Perfil"></a>
+                        </li>
+                        <li class="nav-item p-2">
                             <a class="nav-link text-dark" id="dependentes" asp-area="" asp-controller="Dependentes" asp-action="Index">Dependentes</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" id="servCuidador" asp-area="" asp-controller="ServicoCuidadores" asp-action="Index">ServicoCuidadores</a>
-                        </li>
+
+
+                        <!--
                         <li class="nav-item">
                             <a class="nav-link text-dark" id="servCliente" asp-area="" asp-controller="ServicoClientes" asp-action="Index">ServicoClientes</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" id="avaliacoes" asp-area="" asp-controller="Avaliacoes" asp-action="Index">Avaliações</a>
-                        </li>
-                        <partial name="_LoginPartial" />
+                        </li>-->
+
+
                     </ul>
                 </div>
+                <partial name="_LoginPartial" />
             </div>
         </nav>
     </header>

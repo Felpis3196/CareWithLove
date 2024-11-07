@@ -8,7 +8,7 @@
     <h1 class="text-center">@ViewData["Title"]</h1>
     <br />
     <div class="row">
-        <div class="col-md-4" style="width: 85%; margin: auto">
+        <div class="col-md-4" style="width: 85%; margin: auto; ">
             <form id="account" method="post">
                 <div class="w-100 text-center"><h2>Entrar em uma conta</h2></div>
 
@@ -29,11 +29,11 @@
                 <div>
                     <button id="login-submit" type="submit" class="w-100 btn btn-lg" style="background-color: #eb9b9a">Entrar</button>
                 </div>
-                <div class="mt-2">
+                <div class="mb-2">
                     <p>
                         <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" style="color: #646a4a">Registrar uma nova conta</a>
                     </p>
-                </div>  
+                </div>
             </form>
         </div>
     </div>

@@ -54,20 +54,9 @@
                 <span asp-validation-for="Input.UsuarioLogradouro" class="text-danger"></span>
             </div>
 
-            <div class="form-floating mb-3">
-                <select asp-for="Input.UsuarioTipo" class="form-control">
-                    <option value="">Tipo de Usuário</option>
-                    <option value="Cuidador">Cuidador</option>
-                    <option value="Responsável">Responsável</option>
-                </select>
-                <label asp-for="Input.UsuarioTipo" class="form-label"></label>
-                <span asp-validation-for="Input.UsuarioTipo" class="text-danger"></span>
-            </div>
-
             <button id="update-profile-button" type="submit" class="w-100 btn btn-lg text-white" style="background-color: #eb9b9a">Salvar</button>
         </form>
     </div>
-</div>
 </div>
 
 @section Scripts {

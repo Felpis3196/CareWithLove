@@ -24,13 +24,21 @@ namespace AplicacaoCareWithLove.Controllers
         public DependentesController(IDependenteService dependenteService, UserManager<User> userManager)
         {
             _dependenteService = dependenteService;
-            _userManager = userManager; 
+            _userManager = userManager;
         }
 
         // GET: Dependentes
         public async Task<IActionResult> Index()
         {
-            var dependentes = _dependenteService.ObterTodosDependentes()
+            var usuarioLogadoId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var usuarioLogado = await _userManager.FindByIdAsync(usuarioLogadoId);
+            var eCuidador = false;
+            var eResponsavel = usuarioLogado.UsuarioTipo == "Responsável";
+
+            if (usuarioLogado.UsuarioTipo == "Cuidador")
+            {
+                ViewData["eResponsavel"] = eResponsavel;
+                var dependentes2 = _dependenteService.ObterTodosDependentes()
                 .Select(d => new DependenteViewModel
                 {
                     DependenteId = d.DependenteId,
@@ -39,7 +47,25 @@ namespace AplicacaoCareWithLove.Controllers
                     DependenteEndereco = d.DependenteEndereco,
                     Insulina = d.Insulina,
                     TelefoneEmergencia = d.TelefoneEmergencia,
-                    Cuidados = d.Cuidados,                   
+                    Cuidados = d.Cuidados,
+                    UsuarioNome = d.Usuario.UsuarioNome,
+                });
+                return View(dependentes2);
+            }
+
+            ViewData["eResponsavel"] = eResponsavel;
+            var dependentes = _dependenteService.ObterTodosDependentes()
+                .Where(d => d.UsuarioId == usuarioLogadoId)
+                .Select(d => new DependenteViewModel
+                {
+                    DependenteId = d.DependenteId,
+                    DependenteNome = d.DependenteNome,
+                    DependenteIdade = d.DependenteIdade,
+                    DependenteEndereco = d.DependenteEndereco,
+                    Insulina = d.Insulina,
+                    TelefoneEmergencia = d.TelefoneEmergencia,
+                    Cuidados = d.Cuidados,
+                    UsuarioNome = d.Usuario.UsuarioNome,
                 });
             return View(dependentes);
         }
@@ -75,8 +101,8 @@ namespace AplicacaoCareWithLove.Controllers
         // GET: Dependentes/Create
         public async Task<IActionResult> Create()
         {
-            var usuarios = await _userManager.Users.ToListAsync(); 
-            ViewData["UsuarioId"] = new SelectList(usuarios, "Id", "UserName"); 
+            var usuarios = await _userManager.Users.ToListAsync();
+            ViewData["UsuarioId"] = new SelectList(usuarios, "Id", "UserName");
             return View();
         }
 
@@ -149,7 +175,7 @@ namespace AplicacaoCareWithLove.Controllers
                 UsuarioId = dependente.UsuarioId
             };
 
-            var usuarios = await _userManager.Users.ToListAsync(); 
+            var usuarios = await _userManager.Users.ToListAsync();
             ViewData["UsuarioId"] = new SelectList(usuarios, "Id", "UserName", dependente.UsuarioId);
             return View(dependenteInputModel);
         }

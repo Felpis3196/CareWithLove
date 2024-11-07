@@ -18,75 +18,27 @@
                     a @Html.DisplayFor(modelItem => item.Experiencia)
                 </p>
                 <p>@Html.DisplayFor(modelItem => item.Usuario.UsuarioTelefone)</p>
+                    <a class="btn text-white" style="background-color: #EC9440" asp-action="Edit" asp-route-id="@item.CuidadorId">
+                        <svg bootstrap-icon="PencilSquare" width="20" height="20" aria-label="Editar"></svg>
+                    </a>
             </div>
         </div>
     }
 </div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CPF)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Experiencia)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ValorHora)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Disponibilidade)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Especializacoes)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Usuario.UsuarioNome)
-            </th>
-            <th></th>
-            <th></th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CPF)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Experiencia)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ValorHora)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Disponibilidade)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Especializacoes)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CuidadorNome)
-                </td>
-                <td>
-                    <a class="btn text-white" style="background-color: #EC9440" asp-action="Edit" asp-route-id="@item.CuidadorId">
-                        <svg bootstrap-icon="PencilSquare" width="20" height="20" aria-label="Editar"></svg>
-                    </a>
-                </td>
-                <td>
-                    <a class="btn btn-secondary" asp-action="Details" asp-route-id="@item.CuidadorId">
-                        <svg bootstrap-icon="InfoCircle" width="20" height="20" aria-label="Informação"></svg>
-                    </a>
-                </td>
-                <td>
-                    <a class="btn btn-danger text-white" asp-action="Delete" asp-route-id="@item.CuidadorId">
-                        <svg bootstrap-icon="Trash" width="20" height="20" aria-label="Lixo"></svg>
-                    </a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<!--
+<a class="btn text-white" style="background-color: #EC9440" asp-action="Edit" asp-route-id="item.CuidadorId">
+    <svg bootstrap-icon="PencilSquare" width="20" height="20" aria-label="Editar"></svg>
+</a>
+                                                </td>
+<td>
+    <a class="btn btn-secondary" asp-action="Details" asp-route-id="item.CuidadorId">
+        <svg bootstrap-icon="InfoCircle" width="20" height="20" aria-label="Informação"></svg>
+    </a>
+</td>
+<td>
+    <a class="btn btn-danger text-white" asp-action="Delete" asp-route-id="item.CuidadorId">
+        <svg bootstrap-icon="Trash" width="20" height="20" aria-label="Lixo"></svg>
+    </a>
+</td>
+-->
