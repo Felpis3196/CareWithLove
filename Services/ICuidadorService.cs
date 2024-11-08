@@ -10,5 +10,6 @@ namespace CareWithLoveApp.Services
         void AtualizarCuidador(Cuidador cuidador);
         void ExcluirCuidador(Guid id);
         void AdicionarCuidador(Cuidador cuidador);
+        string GetCuidadorPorIdUsuario(Guid usuarioId);
     }
 }

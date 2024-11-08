@@ -69,5 +69,19 @@ namespace CareWithLoveApp.Services
 
             _cuidadorRepository.Add(cuidador);
         }
+
+        public string GetCuidadorPorIdUsuario(Guid usuarioId)
+        {
+            if (usuarioId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(usuarioId), "O ID do usuário não pode ser nulo.");
+            }
+
+            var cuidador = _cuidadorRepository.GetAll()
+                .FirstOrDefault(c => c.UsuarioId == usuarioId.ToString());
+
+            return cuidador?.CuidadorId.ToString() ?? string.Empty;
+        }
+
     }
 }

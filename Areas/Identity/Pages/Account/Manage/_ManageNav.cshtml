@@ -1,24 +1,32 @@
 ﻿@using CareWithLoveApp.Models.Entities
+@using CareWithLoveApp.Services
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
+@inject ICuidadorService CuidadorService
 
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
     var usuarioAtual = await UserManager.GetUserAsync(User);
-    var isCuidador = usuarioAtual != null && await UserManager.IsInRoleAsync(usuarioAtual, "Cuidador");
+    var isCuidador = usuarioAtual?.UsuarioTipo == "Cuidador";
 
-    var cuidadorId = usuarioAtual?.Cuidador?.CuidadorId;
+    string cuidadorId = string.Empty;
+
+    if (usuarioAtual != null && isCuidador)
+    {
+        cuidadorId = CuidadorService.GetCuidadorPorIdUsuario(Guid.Parse(usuarioAtual.Id));
+    }
 }
 
 <ul class="nav nav-pills flex-column">
     <li class="nav-item"><a class="nav-link @ManageNavPages.IndexNavClass(ViewContext)" id="profile" asp-page="./Index">Perfil</a></li>
     <li class="nav-item"><a class="nav-link @ManageNavPages.ChangePasswordNavClass(ViewContext)" id="change-password" asp-page="./ChangePassword">Senha</a></li>
-    @if (isCuidador)
+
+    @if (isCuidador && string.IsNullOrEmpty(cuidadorId))
+    {
+        <li class="nav-item"><a asp-action="Create" asp-controller="Cuidadores">Completar Cadastro</a></li>
+    }
+    else if (isCuidador)
     {
         <li class="nav-item"><a asp-action="Edit" asp-controller="Cuidadores" asp-route-id="@cuidadorId">Área Profissional</a></li>
-    }
-    else
-    {
-        
     }
 </ul>
