@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CareWithLoveApp.Migrations
 {
     [DbContext(typeof(MainContext))]
-    [Migration("20241101130001_Main")]
-    partial class Main
+    [Migration("20241107235554_modMig")]
+    partial class modMig
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
