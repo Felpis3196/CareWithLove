@@ -14,46 +14,34 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3" style="background-color: #FFF0DF; height: 170px">
-            <div class="container-fluid p-0 m-0">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    <img src="~/IMG/ImgLogo.png" style="height: 150px; width: 160px">
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div id="IdNav" class="navbar-collapse collapse d-sm-inline-flex justify-content-between" style="background-color: #FFF0DF">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item p-2">
-                            <a class="nav-link text-dark" id="home" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item p-2">
-                            <a class="nav-link text-dark" id="cuidadores" asp-area="" asp-controller="Cuidadores" asp-action="Index">Cuidadores</a>
-                        </li>
+        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #FFF0DF;">
+            <button class="navbar-toggler m-2" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand align-content-center" asp-area="" asp-controller="Home" asp-action="Index">
+                <img src="~/IMG/ImgLogo.png" style="height: 150px; width: 160px">
+            </a>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" id="" asp-area="" asp-controller="Cuidadores" asp-action="Perfil"></a>
-                        </li>
-                        <li class="nav-item p-2">
-                            <a class="nav-link text-dark" id="dependentes" asp-area="" asp-controller="Dependentes" asp-action="Index">Dependentes</a>
-                        </li>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item p-2">
+                        <a class="nav-link text-dark" id="home" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                    </li>
+                    <li class="nav-item p-2">
+                        <a class="nav-link text-dark" id="cuidadores" asp-area="" asp-controller="Cuidadores" asp-action="Index">Cuidadores</a>
+                    </li>
+                    <li class="nav-item p-2">
+                        <a class="nav-link text-dark" id="dependentes" asp-area="" asp-controller="Dependentes" asp-action="Index">Dependentes</a>
+                    </li>
+                    <li class="nav-item p-2">
+                        <a class="nav-link text-dark" id="home" asp-area="" asp-controller="Home" asp-action="QuemSomos">Quem Somos</a>
+                    </li>
 
-
-                        <!--
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" id="servCliente" asp-area="" asp-controller="ServicoClientes" asp-action="Index">ServicoClientes</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" id="avaliacoes" asp-area="" asp-controller="Avaliacoes" asp-action="Index">Avaliações</a>
-                        </li>-->
-
-
-                    </ul>
-                </div>
+                </ul>
                 <partial name="_LoginPartial" />
             </div>
         </nav>
+
     </header>
     <div class="container">
         <main role="main" class="pb-3">
@@ -69,6 +57,12 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.3/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

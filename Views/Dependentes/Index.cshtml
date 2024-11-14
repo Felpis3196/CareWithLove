@@ -15,10 +15,11 @@
     </p>
 }
 
-<div class="d-flex">
+<div id="cudLinha" class="row">
     @foreach (var item in Model)
     {
-        <div class="card m-2 p-2" style="width: 18rem;">
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="card m-2 p-2" style="width: 18rem;">
             <div class="card-body">
                 <h5 class="card-title">@Html.DisplayFor(modelItem => item.DependenteNome)</h5>
                 <p class="card-text">
@@ -30,9 +31,8 @@
                     Preciso de cuidados especiais, se puder me ajudar,
                     entre em contato com meu responsável: @Html.DisplayFor(modelItem => item.UsuarioNome) - @Html.DisplayFor(modelItem => item.TelefoneEmergencia)
                 </p>
+
                 <div>
-
-
                     @if (@ViewData["eResponsavel"].ToString() == "True")
                     {
                         <a class="btn btn-danger text-white" asp-action="Delete" asp-route-id="@item.DependenteId">
@@ -45,6 +45,7 @@
 
                 </div>
             </div>
+        </div>
         </div>
     }
 </div>

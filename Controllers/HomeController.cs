@@ -18,7 +18,7 @@ namespace CareWithLoveApp.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult QuemSomos()
         {
             return View();
         }

@@ -3,11 +3,13 @@
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
 
-<ul class="navbar-nav">
+<ul id="loginPartial" class="navbar-nav" style="background-color: #FFF0DF">
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item p-2">
-            <a class="nav-link text-dark" id="btnPerfil" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Olá @User.Identity?.Name!</a>
+            <a class="nav-link text-dark" id="btnPerfil" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
+                <svg bootstrap-icon="Person" width="30" height="30" aria-label="Perfil"></svg>
+            </a>
         </li>
         <li class="nav-item p-2">
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">

@@ -30,17 +30,12 @@ body {
     color: white;
 }
 
-#email.nav-link.active {
-    background-color: #eead1f;
-    color: white;
-}
-
 #change-password.nav-link.active {
     background-color: #eead1f;
     color: white;
 }
 
-#personal-data.nav-link.active {
+#perfilProf.nav-link.active {
     background-color: #eead1f;
     color: white;
 }
@@ -62,6 +57,9 @@ body {
     justify-content: center;
 }
 
+#fomsPerfil {
+    width: 35%
+}
 
 /***************************************** NAVBAR *****************************************/
 #home.nav-link:hover, #cuidadores.nav-link:hover,
@@ -84,17 +82,22 @@ body {
     color: black;
 }
 
-#personal-data.nav-link {
+#perfilProf.nav-link {
     color: black;
 }
 
+
+/***************************************** QUEM SOMOS *****************************************/
+
+#tittle {
+    text-align: center;
+}
 
 /*#dependente.nav-link:hover,
 #servCliente.nav-link:hover, #servCuidador.nav-link:hover,
 #cuidadores.nav-link:hover, #avaliacoes.nav-link:hover,
 #feedss.nav-link:hover, #btnSair.nav-link:hover, #btnRegistro.nav-link:hover,
 #btnEntrar.nav-link:hover*/
-
 /*********************************** RESPONSIVO ***********************************/
 @media (max-width: 576px) {
     html {
@@ -129,6 +132,16 @@ body {
         z-index: 10;
         padding-left: 20px;
     }
+
+    #fomsPerfil {
+        width: 80%;
+        margin: auto;
+    }
+
+    /*----------------------------------------- HEADER -----------------------------------------*/
+
+    #loginPartial {
+    }
 }
 
 @media (min-width: 577px) and (max-width: 768px) {
@@ -147,6 +160,10 @@ body {
 
     #navbar-collapse {
         display: flex;
+        flex-direction: column;
+    }
+
+    #cudLinha {
         flex-direction: column;
     }
 }

@@ -17,7 +17,7 @@
     }
 }
 
-<ul class="nav nav-pills flex-column">
+<ul class="nav nav-pills flex-column mb-3">
     <li class="nav-item"><a class="nav-link @ManageNavPages.IndexNavClass(ViewContext)" id="profile" asp-page="./Index">Perfil</a></li>
     <li class="nav-item"><a class="nav-link @ManageNavPages.ChangePasswordNavClass(ViewContext)" id="change-password" asp-page="./ChangePassword">Senha</a></li>
 
@@ -27,6 +27,6 @@
     }
     else if (isCuidador)
     {
-        <li class="nav-item"><a asp-action="Edit" asp-controller="Cuidadores" asp-route-id="@cuidadorId">Área Profissional</a></li>
+        <li class="nav-item"><a class="nav-link" id="perfilProf" asp-action="Edit" asp-controller="Cuidadores" asp-route-id="@cuidadorId">Área Profissional</a></li>
     }
 </ul>
