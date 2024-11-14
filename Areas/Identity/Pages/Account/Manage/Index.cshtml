@@ -17,7 +17,7 @@
 
             <div class="form-floating mb-3">
                 <input asp-for="Username" class="form-control" placeholder="Usuário" disabled />
-                <label asp-for="Username" class="form-label"></label>
+                <label asp-for="Username" class="form-label">Usuário</label>
             </div>
 
             <div class="form-floating mb-3">
@@ -52,6 +52,10 @@
                 <input asp-for="Input.UsuarioLogradouro" class="form-control" placeholder="Endereço" />
                 <label asp-for="Input.UsuarioLogradouro" class="form-label"></label>
                 <span asp-validation-for="Input.UsuarioLogradouro" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.UsuarioTipo" class="form-control" placeholder="Tipo Usuário" disabled />
+                <label asp-for="Input.UsuarioTipo" class="form-label"></label>
             </div>
 
             <button id="update-profile-button" type="submit" class="w-100 btn btn-lg text-white" style="background-color: #eb9b9a">Salvar</button>

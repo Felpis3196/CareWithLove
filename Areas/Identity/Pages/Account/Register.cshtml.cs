@@ -42,7 +42,7 @@ namespace CareWithLoveApp.Areas.Identity.Pages.Account
             // { "ERR002", "Email format is invalid." },
             
         };
-      
+
         public RegisterModel(
             UserManager<User> userManager,
             IUserStore<User> userStore,
@@ -93,7 +93,7 @@ namespace CareWithLoveApp.Areas.Identity.Pages.Account
             /// </summary>
 
             [Required(ErrorMessage = "O E-mail é obrigatório.")]
-            [EmailAddress]
+            [EmailAddress(ErrorMessage = "O campo Email não é um endereço de e-mail válido.")]
             [Display(Name = "E-mail")]
             public string Email { get; set; }
 
@@ -103,7 +103,7 @@ namespace CareWithLoveApp.Areas.Identity.Pages.Account
             /// </summary>
             [Required(ErrorMessage = "A Senha é obrigatório.")]
             [StringLength(100, ErrorMessage = "O {0} deve ter pelo menos {2} e no máximo {1} caracteres.", MinimumLength = 6)]
-            [DataType(DataType.Password)]
+            [DataType(DataType.Password, ErrorMessage = "A senha precisa ter pelo menos uma letra maiúscula, uma minúscula, um número e um caractere especial")]
             [Display(Name = "Senha")]
             public string Password { get; set; }
 
@@ -264,6 +264,9 @@ namespace CareWithLoveApp.Areas.Identity.Pages.Account
                 {
                     ModelState.AddModelError(string.Empty, getErrorMessage(error));
                 }
+
+
+                ModelState.AddModelError("DataNascimento", "Você precisa ter pelo menos 21 anos de idade.");
             }
 
             return Page();

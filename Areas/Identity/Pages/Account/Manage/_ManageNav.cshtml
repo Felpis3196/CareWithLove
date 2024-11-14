@@ -23,7 +23,7 @@
 
     @if (isCuidador && string.IsNullOrEmpty(cuidadorId))
     {
-        <li class="nav-item"><a asp-action="Create" asp-controller="Cuidadores">Completar Cadastro</a></li>
+        <li class="nav-item"><a class="nav-link" id="compCad" asp-action="Create" asp-controller="Cuidadores">Área Profissional</a></li>
     }
     else if (isCuidador)
     {

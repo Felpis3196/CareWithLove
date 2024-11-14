@@ -40,6 +40,11 @@ body {
     color: white;
 }
 
+#compCad.nav-link.active {
+    background-color: #eead1f;
+    color: white;
+}
+
 
 /******************************************* HOME *******************************************/
 
@@ -86,6 +91,10 @@ body {
     color: black;
 }
 
+#compCad.nav-link {
+    color: black;
+}
+
 
 /***************************************** QUEM SOMOS *****************************************/
 
@@ -98,22 +107,18 @@ body {
 #cuidadores.nav-link:hover, #avaliacoes.nav-link:hover,
 #feedss.nav-link:hover, #btnSair.nav-link:hover, #btnRegistro.nav-link:hover,
 #btnEntrar.nav-link:hover*/
-/*********************************** RESPONSIVO ***********************************/
+/*********************************************************** RESPONSIVO ***********************************************************/
 @media (max-width: 576px) {
     html {
-        font-size: 16px;
-    }
-
-    #TelEmerg {
-        flex-direction: column;
+        font-size: 20px;
     }
 
     #nossosPrincipios {
         flex-direction: column;
     }
 
-    header {
-        background-color: aqua;
+    #TelEmergencia {
+        flex-direction: column;
     }
 
     #feed {
@@ -137,16 +142,11 @@ body {
         width: 80%;
         margin: auto;
     }
-
-    /*----------------------------------------- HEADER -----------------------------------------*/
-
-    #loginPartial {
-    }
 }
 
 @media (min-width: 577px) and (max-width: 768px) {
     html {
-        font-size: 16px;
+        font-size: 18px;
     }
 
     #feed {

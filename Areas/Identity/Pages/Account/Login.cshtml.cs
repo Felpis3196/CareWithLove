@@ -12,6 +12,15 @@ public class LoginModel : PageModel
     private readonly UserManager<User> _userManager;
     private readonly ILogger<LoginModel> _logger;
 
+
+    private Dictionary<string, string> errorMessages = new Dictionary<string, string>
+        {
+            { "Erro1", "O campo não é um endereço de e-mail válido." },
+            // Adicione mais códigos e mensagens conforme necessário
+            // { "ERR002", "Email format is invalid." },
+            
+        };
+
     public LoginModel(SignInManager<User> signInManager, UserManager<User> userManager, ILogger<LoginModel> logger)
     {
         _signInManager = signInManager;
@@ -32,7 +41,7 @@ public class LoginModel : PageModel
     public class InputModel
     {
         [Required(ErrorMessage = "O campo E-mail é obrigatório.")]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "O campo Email não é um endereço de e-mail válido.")]
         [Display(Name = "Email / Usuario")]
         public string Email { get; set; }
 

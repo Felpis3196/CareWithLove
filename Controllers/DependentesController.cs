@@ -33,7 +33,7 @@ namespace AplicacaoCareWithLove.Controllers
             var usuarioLogadoId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var usuarioLogado = await _userManager.FindByIdAsync(usuarioLogadoId);
             var eCuidador = false;
-            var eResponsavel = usuarioLogado.UsuarioTipo == "Responsável";
+            var eResponsavel = usuarioLogado.UsuarioTipo == "Responsavel";
 
             if (usuarioLogado.UsuarioTipo == "Cuidador")
             {
