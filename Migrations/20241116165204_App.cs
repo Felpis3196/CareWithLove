@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace CareWithLoveApp.Migrations.ApplicationDb
+namespace CareWithLoveApp.Migrations
 {
     /// <inheritdoc />
-    public partial class IdMig : Migration
+    public partial class App : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
