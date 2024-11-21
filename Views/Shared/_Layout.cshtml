@@ -31,7 +31,7 @@
                     <li class="nav-item p-2">
                         <a class="nav-link text-dark" id="cuidadores" asp-area="" asp-controller="Cuidadores" asp-action="Index">Cuidadores</a>
                     </li>
-                    <li class="nav-item p-2">
+                    <li class="nav-item p-2" hidden="@(!User.Identity.IsAuthenticated)">
                         <a class="nav-link text-dark" id="dependentes" asp-area="" asp-controller="Dependentes" asp-action="Index">Dependentes</a>
                     </li>
                     <li class="nav-item p-2">

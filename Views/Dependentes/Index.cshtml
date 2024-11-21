@@ -6,7 +6,7 @@
 
 <h1 class="m-2">Dependentes</h1>
 
-@if (@ViewData["eResponsavel"].ToString() == "True")
+@if (ViewData["eResponsavel"]?.ToString() == "True")
 {
     <p class="mt-5">
         <a class="btn text-white" style="background-color: #EC9440" asp-action="Create">

@@ -170,6 +170,11 @@ namespace CareWithLoveApp.Areas.Identity.Pages.Account
                 idade--;
             }
 
+            if (idade < 21)
+            {
+                ModelState.AddModelError("Input.DataNascimento", "Você precisa ter pelo menos 21 anos de idade.");
+            }
+
             if (ModelState.IsValid && idade > 21)
             {
                 var user = new User
