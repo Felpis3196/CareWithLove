@@ -155,7 +155,7 @@ namespace CareWithLoveApp.Areas.Identity.Pages.Account.Manage
 
             // Recarrega a sessão para refletir as mudanças
             await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Your profile has been updated";
+            StatusMessage = "Seu Perfil foi alterado com sucesso!";
             return RedirectToPage();
         }
 
