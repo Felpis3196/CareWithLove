@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CareWithLoveApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241116165204_App")]
+    [Migration("20241121101200_App")]
     partial class App
     {
         /// <inheritdoc />

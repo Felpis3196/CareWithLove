@@ -117,7 +117,7 @@ body {
         flex-direction: column;
     }
 
-    #TelEmergencia {
+    #TelEmerg {
         flex-direction: column;
     }
 
@@ -144,7 +144,7 @@ body {
     }
 }
 
-@media (min-width: 577px) and (max-width: 768px) {
+@media (min-width: 577px) and (max-width: 767px) {
     html {
         font-size: 18px;
     }
@@ -156,6 +156,10 @@ body {
     #miolo {
         flex-direction: column;
         justify-content: center;
+    }
+
+    #TelEmerg {
+        flex-direction: column;
     }
 
     #navbar-collapse {
