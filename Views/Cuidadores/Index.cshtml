@@ -4,27 +4,30 @@
     ViewData["Title"] = "Index";
 }
 
-<h1 class="m-2">Cuidadores</h1>
+<div class="m-5">
 
-<div id="cudLinha" class="row m-2">
-    @foreach (var item in Model)
-    {
-        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 m-auto">
-            <div class="card m-2 p-2" style="height: 300px; width: 100%">
-                <div class="card-body">
-                    <h5 class="card-title">@Html.DisplayFor(modelItem => item.CuidadorNome)</h5>
-                    <p class="card-text">
-                        Olá, sou @Html.DisplayFor(modelItem => item.Usuario.UsuarioNome),
-                        especializado(a) em @Html.DisplayFor(modelItem => item.Especializacoes)
-                        a @Html.DisplayFor(modelItem => item.Experiencia).
-                        Minha disponibilidade é @Html.DisplayFor(modelItem => item.Disponibilidade),
-                        e meu valor por hora é @Html.DisplayFor(modelItem => item.ValorHora).
-                    </p>
-                    <p>@Html.DisplayFor(modelItem => item.Usuario.UsuarioTelefone)</p>
+    <h1 class="m-2">Cuidadores</h1>
+
+    <div id="cudLinha" class="row m-2">
+        @foreach (var item in Model)
+        {
+            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 m-auto">
+                <div class="card m-2 p-2" style="height: 300px; width: 100%">
+                    <div class="card-body">
+                        <h5 class="card-title">@Html.DisplayFor(modelItem => item.CuidadorNome)</h5>
+                        <p class="card-text">
+                            Olá, sou @Html.DisplayFor(modelItem => item.Usuario.UsuarioNome),
+                            especializado(a) em @Html.DisplayFor(modelItem => item.Especializacoes)
+                            a @Html.DisplayFor(modelItem => item.Experiencia).
+                            Minha disponibilidade é @Html.DisplayFor(modelItem => item.Disponibilidade),
+                            e meu valor por hora é @Html.DisplayFor(modelItem => item.ValorHora).
+                        </p>
+                        <p>@Html.DisplayFor(modelItem => item.Usuario.UsuarioTelefone)</p>
+                    </div>
                 </div>
             </div>
-        </div>
-    }
+        }
+    </div>
 </div>
 
 <!--

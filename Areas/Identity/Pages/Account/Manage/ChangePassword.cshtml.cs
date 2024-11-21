@@ -53,16 +53,16 @@ namespace CareWithLoveApp.Areas.Identity.Pages.Account.Manage
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required(ErrorMessage = "A senha antiga é obrigatória")]
+            [Required(ErrorMessage = "A Senha Atual é obrigatória")]
             [DataType(DataType.Password)]
-            [Display(Name = "Current password")]
+            [Display(Name = "Senha Atual")]
             public string OldPassword { get; set; }
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
+            [Required(ErrorMessage = "A Nova Senha é obrigatória")]
             [StringLength(100, ErrorMessage = "A {0} deve ter pelo menos {2} e no máximo {1} caracteres.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Nova Senha")]
@@ -74,7 +74,7 @@ namespace CareWithLoveApp.Areas.Identity.Pages.Account.Manage
             /// </summary>
             [DataType(DataType.Password)]
             [Display(Name = "Confirmar Nova Senha")]
-            [Compare("NewPassword", ErrorMessage = "A nova senha e a senha de confirmação não coincidem.")]
+            [Compare("NewPassword", ErrorMessage = "A Nova senha e a Senha de confirmação não coincidem.")]
             public string ConfirmPassword { get; set; }
         }
 

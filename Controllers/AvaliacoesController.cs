@@ -38,7 +38,8 @@ namespace CareWithLoveApp.Controllers
                     Nota = a.Nota,
                     Review = a.Review,
                     UsuarioId = User.FindFirstValue(ClaimTypes.NameIdentifier),
-                    UsuarioNome = usuario.UsuarioNome
+                    //UsuarioNome = usuario.UsuarioNome
+                    UsuarioNome = a.Usuario.UsuarioNome
                 });
 
             return View(avaliacoes);

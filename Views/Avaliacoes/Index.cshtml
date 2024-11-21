@@ -4,49 +4,54 @@
     ViewData["Title"] = "Avaliações";
 }
 
-<h1>@ViewData["Title"]</h1>
+<div class="m-5">
 
 
-<p class="mt-5">
-    <a class="btn text-white" style="background-color: #EC9440" asp-action="Create">
-        <svg class="me-2" bootstrap-icon="PlusSquare" width="20" height="20" aria-label="Mais quadrado"></svg> Nova Avaliação
-    </a>
-</p>
+    <h1>@ViewData["Title"]</h1>
+    <h4 >O que você achou do nosso site?</h4>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nota)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Review)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UsuarioNome)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+
+    <p class="mt-5">
+        <a class="btn text-white" style="background-color: #EC9440" asp-action="Create">
+            <svg class="me-2" bootstrap-icon="PlusSquare" width="20" height="20" aria-label="Mais quadrado"></svg> Nova Avaliação
+        </a>
+    </p>
+
+    <table class="table">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Nota)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Review)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UsuarioNome)
-                </td>
-                <td>
-                    <a class="btn btn-danger text-white" asp-action="Delete" asp-route-id="@item.AvaliacaoId">
-                        <svg bootstrap-icon="Trash" width="20" height="20" aria-label="Lixo"></svg>
-                    </a>
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.Nota)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Review)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UsuarioNome)
+                </th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nota)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Review)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UsuarioNome)
+                    </td>
+                    <td>
+                        <a class="btn btn-danger text-white" asp-action="Delete" asp-route-id="@item.AvaliacaoId">
+                            <svg bootstrap-icon="Trash" width="20" height="20" aria-label="Lixo"></svg>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
